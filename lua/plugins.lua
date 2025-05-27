@@ -8,6 +8,14 @@ return {
       'nvim-tree/nvim-web-devicons',
       config = function()
         require('nvim-tree').setup({
+          ---### ahmedkhalf/project.nvim dependencies ---
+          sync_root_with_cwd = true,
+          respect_buf_cwd = true,
+          update_focused_file = {
+            enable = true,
+            update_root = true,
+          },
+          ---### ahmedkhalf/project.nvim dependencies ---
           -- actions = {
           --   open_file = {
           --     update_focused_file = {
@@ -274,6 +282,19 @@ return {
       })
       require('telescope').setup({})
       require('telescope').load_extension('project')
+    end,
+  },
+
+  -- project
+  -- https://github.com/ahmedkhalf/project.nvim
+  {
+    'ahmedkhalf/project.nvim',
+    config = function()
+      require('project_nvim').setup({
+        exclude_dirs = { '*//*' },
+        detection_methods = { 'pattern' },
+        patterns = { '.git' },
+      })
     end,
   },
 
