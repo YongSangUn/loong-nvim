@@ -1,5 +1,46 @@
--- { '<leader>', '<cmd><cr>', desc = '', mode = 'n' },
 return {
+  -- show keybindings in popup.
+  -- https://github.com/folke/which-key.nvim
+  {
+    'folke/which-key.nvim',
+    event = 'VeryLazy',
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+    config = function()
+      local wh = require('which-key')
+      wh.setup({})
+      wh.add({
+        -- { '<leader>', '<cmd><cr>', desc = '', mode = 'n' },
+        { '<leader>1', '1<C-w><C-w>', desc = 'Select Window 1', mode = 'n' },
+        { '<leader>2', '2<C-w><C-w>', desc = 'Select Window 2', mode = 'n' },
+        { '<leader>3', '3<C-w><C-w>', desc = 'Select Window 3', mode = 'n' },
+        { '<leader>4', '4<C-w><C-w>', desc = 'Select Window 4', mode = 'n' },
+        { '<leader>5', '5<C-w><C-w>', desc = 'Select Window 5', mode = 'n' },
+        { '<leader>6', '6<C-w><C-w>', desc = 'Select Window 6', mode = 'n' },
+      })
+    end,
+    keys = {
+      {
+        '<leader>?',
+        function()
+          require('which-key').show({ global = false })
+        end,
+        desc = 'Buffer Local Keymaps (which-key)',
+      },
+    },
+  },
+
+  -- scrollo
+  -- https://github.com/karb94/neoscroll.nvim
+  {
+    'karb94/neoscroll.nvim',
+    config = function()
+      require('neoscroll').setup({})
+    end,
+  },
   -- file explor
   -- https://github.com/nvim-tree/nvim-tree.lua
   {
@@ -32,37 +73,16 @@ return {
     },
   },
 
-  -- show keybindings in popup.
-  -- https://github.com/folke/which-key.nvim
-  {
-    'folke/which-key.nvim',
-    event = 'VeryLazy',
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    },
-    config = function()
-      require('which-key').setup({})
-    end,
-    keys = {
-      {
-        '<leader>?',
-        function()
-          require('which-key').show({ global = false })
-        end,
-        desc = 'Buffer Local Keymaps (which-key)',
-      },
-    },
-  },
-
   -- Auto completion
   -- https://github.com/saghen/blink.cmp
   -- https://cmp.saghen.dev/installation
   {
     'saghen/blink.cmp',
     -- optional: provides snippets for the snippet source
-    dependencies = { 'rafamadriz/friendly-snippets' },
+    dependencies = {
+      'rafamadriz/friendly-snippets',
+      'Kaiser-Yang/blink-cmp-avante', -- use for anante.nvim complation
+    },
 
     -- use a release tag to download pre-built binaries
     version = '1.*',
@@ -88,10 +108,10 @@ return {
       -- See :h blink-cmp-config-keymap for defining your own keymap
       -- keymap = { preset = 'default' },
       keymap = {
-        preset = 'enter',
+        -- preset = 'enter',
         -- Select completions
-        ['<Tab>'] = { 'select_next', 'fallback' },
-        ['<S-Tab>'] = { 'select_prev', 'fallback' },
+        -- ['<Tab>'] = { 'select_next', 'fallback' },
+        -- ['<S-Tab>'] = { 'select_prev', 'fallback' },
       },
 
       appearance = {
@@ -122,7 +142,16 @@ return {
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        default = { 'avante', 'lsp', 'path', 'snippets', 'buffer' },
+        providers = {
+          avante = {
+            module = 'blink-cmp-avante',
+            name = 'Avante',
+            opts = {
+              -- options for blink-cmp-avante
+            },
+          },
+        },
       },
       -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
       -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
@@ -320,16 +349,35 @@ return {
     end,
   },
 
-  -- ai
+  -- auto_suggestions
+  -- https://github.com/supermaven-inc/supermaven-nvim
+  {
+    'supermaven-inc/supermaven-nvim',
+    config = function()
+      require('supermaven-nvim').setup({
+        ignore_filetypes = { 'Avante', 'TelescopePrompt' },
+      })
+    end,
+  },
+
+  -- avante
   -- https://github.com/yetone/avante.nvim
   {
     'yetone/avante.nvim',
     event = 'VeryLazy',
     version = false, -- Never set this value to "*"! Never!
+    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+    build = 'make',
     opts = {
-      -- add any opts here
-      -- for example
-      provider = 'openai',
+      -- provider = 'or_dsv3',
+      provider = 'gemini',
+      cursor_applying_provider = 'grop_lm3370bv',
+      behaviour = {
+        enable_cursor_planning_mode = true, -- https://github.com/yetone/avante.nvim/blob/main/cursor-planning-mode.md
+        auto_suggestions = false,
+        enable_token_counting = true,
+        use_cwd_as_project_root = true,
+      },
       openai = {
         endpoint = 'https://api.openai.com/v1',
         model = 'gpt-4o', -- your desired model (or use gpt-4o, etc.)
@@ -338,10 +386,77 @@ return {
         max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
         --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
       },
+      gemini = {
+        model = 'gemini-2.5-flash-preview-05-20',
+        -- model = 'gemini-2.5-pro-preview-05-06',
+        -- model = 'gemini-2.5-pro-preview-03-25',
+        -- model = 'gemini-2.5-pro-exp-03-25',
+        -- model = 'gemini-2.0-flash-exp',
+        -- model = 'gemini-2.0-pro-exp',
+        -- model = 'gemini-2.0-flash-thinking-exp-1219',
+      },
+      vendors = {
+        ds_r1 = {
+          __inherited_from = 'or_dsv3',
+          api_key_name = 'DEEPSEEK_API_KEY',
+          endpoint = 'https://api.deepseek.com',
+          model = 'deepseek-reasoner',
+          disable_tools = true,
+        },
+        ds_v3 = {
+          __inherited_from = 'openai',
+          api_key_name = 'DEEPSEEK_API_KEY',
+          endpoint = 'https://api.deepseek.com',
+          model = 'deepseek-chat',
+          disable_tools = true,
+        },
+        uni = {
+          __inherited_from = 'openai',
+          api_key_name = 'UNI_API_KEY',
+          endpoint = 'https://api.uniapi.io',
+          model = 'claude-sonnet-4-20250514',
+          -- model = 'claude-3-5-sonnet-latest',
+          -- model = 'deepseek-reasoner',
+          -- model = 'claude-3-7-sonnet-20250219',
+          -- model = 'claude-3-5-sonnet-20250219',
+          -- disable_tools = true,
+        },
+        grop_lm3370bv = {
+          __inherited_from = 'openai',
+          api_key_name = 'GROQ_API_KEY',
+          endpoint = 'https://api.groq.com/openai/v1/',
+          model = 'llama-3.3-70b-versatile',
+          max_completion_tokens = 32768, -- remember to increase this value, otherwise it will stop generating halfway
+        },
+        groq_qwq = {
+          __inherited_from = 'openai',
+          api_key_name = 'GROQ_API_KEY',
+          endpoint = 'https://api.groq.com/openai/v1/',
+          model = 'qwen-qwq-32b',
+          max_tokens = 32768, -- remember to increase this value, otherwise it will stop generating halfway
+          disable_tools = true,
+        },
+        or_dsv3 = {
+          __inherited_from = 'openai',
+          endpoint = 'https://openrouter.ai/api/v1',
+          api_key_name = 'OPENROUTER_API_KEY',
+          model = 'deepseek/deepseek-chat-v3-0324:free',
+        },
+        or_dsr1 = {
+          __inherited_from = 'openai',
+          endpoint = 'https://openrouter.ai/api/v1',
+          api_key_name = 'OPENROUTER_API_KEY',
+          model = 'deepseek/deepseek-r1:free',
+        },
+      },
+      web_search_engine = {
+        provider = 'tavily', -- tavily, serpapi, searchapi, google, kagi, brave, or searxng
+        proxy = nil, -- proxy support, e.g., http://127.0.0.1:7890
+      },
+      -- selector = {
+      --   provider = 'telescope',
+      -- },
     },
-    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-    build = 'make',
-    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
       'stevearc/dressing.nvim',
