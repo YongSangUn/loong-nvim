@@ -1,6 +1,9 @@
 local g = vim.g
 local opt = vim.opt
 
+-- Make sure to setup `mapleader` and `maplocalleader` before lazy loading
+g.mapleader = ' '
+
 -- Hint: use `:h <option>` to figure out the meaning if needed
 -- https://neovim.io/doc/user/provider.html#g%3Aclipboard
 g.clipboard = {

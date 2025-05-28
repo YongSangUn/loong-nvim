@@ -1,12 +1,3 @@
--- wh = require('which-key')
--- define common options
--- local opts = {
---   noremap = true, -- non-recursive
---   silent = true, -- do not show message
--- }
-
--- Hint: see `:h vim.map.set()`
--- Better window navigation
 vim.keymap.set('n', '<C-h>', '<C-w>h') -- , opts)
 vim.keymap.set('n', '<C-j>', '<C-w>j') -- , opts)
 vim.keymap.set('n', '<C-k>', '<C-w>k') -- , opts)
