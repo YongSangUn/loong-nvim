@@ -36,7 +36,7 @@ opt.autoindent = true -- copt indent when starting new line; delete the indent i
 
 -- show tab char and space
 opt.list = true
-opt.listchars = 'tab:->·,trail:·,nbsp:·'
+opt.listchars = 'tab:→·,trail:·,nbsp:·'
 
 -- UI config
 opt.number = true -- show absolute number
