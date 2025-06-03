@@ -122,24 +122,26 @@ loong.add_plugin('yetone/avante.nvim', {
       enable_token_counting = true,
       use_cwd_as_project_root = true,
     },
-    openai = {
-      endpoint = 'https://api.openai.com/v1',
-      model = 'gpt-4o', -- your desired model (or use gpt-4o, etc.)
-      timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-      temperature = 0,
-      max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
-      --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
-    },
-    gemini = {
-      model = 'gemini-2.5-flash-preview-05-20',
-      -- model = 'gemini-2.5-pro-preview-05-06',
-      -- model = 'gemini-2.5-pro-preview-03-25',
-      -- model = 'gemini-2.5-pro-exp-03-25',
-      -- model = 'gemini-2.0-flash-exp',
-      -- model = 'gemini-2.0-pro-exp',
-      -- model = 'gemini-2.0-flash-thinking-exp-1219',
-    },
-    vendors = {
+    providers = {
+      openai = {
+        endpoint = 'https://api.openai.com/v1',
+        model = 'gpt-4o', -- your desired model (or use gpt-4o, etc.)
+        timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
+        extra_request_body = {
+          temperature = 0,
+          max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
+          --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+        },
+      },
+      gemini = {
+        model = 'gemini-2.5-flash-preview-05-20',
+        -- model = 'gemini-2.5-pro-preview-05-06',
+        -- model = 'gemini-2.5-pro-preview-03-25',
+        -- model = 'gemini-2.5-pro-exp-03-25',
+        -- model = 'gemini-2.0-flash-exp',
+        -- model = 'gemini-2.0-pro-exp',
+        -- model = 'gemini-2.0-flash-thinking-exp-1219',
+      },
       ds_r1 = {
         __inherited_from = 'or_dsv3',
         api_key_name = 'DEEPSEEK_API_KEY',
@@ -170,14 +172,18 @@ loong.add_plugin('yetone/avante.nvim', {
         api_key_name = 'GROQ_API_KEY',
         endpoint = 'https://api.groq.com/openai/v1/',
         model = 'llama-3.3-70b-versatile',
-        max_completion_tokens = 32768, -- remember to increase this value, otherwise it will stop generating halfway
+        extra_request_body = {
+          max_completion_tokens = 32768, -- remember to increase this value, otherwise it will stop generating halfway
+        },
       },
       groq_qwq = {
         __inherited_from = 'openai',
         api_key_name = 'GROQ_API_KEY',
         endpoint = 'https://api.groq.com/openai/v1/',
         model = 'qwen-qwq-32b',
-        max_tokens = 32768, -- remember to increase this value, otherwise it will stop generating halfway
+        extra_request_body = {
+          max_tokens = 32768, -- remember to increase this value, otherwise it will stop generating halfway
+        },
         disable_tools = true,
       },
       or_dsv3 = {

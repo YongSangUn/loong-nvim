@@ -68,6 +68,7 @@ loong.add_plugin('rcarriga/nvim-notify', {
     require('notify').setup({
       -- Animation style (see below for details)
       stages = 'fade_in_slide_out',
+      background_colour = '#000000',
     })
   end,
 })
