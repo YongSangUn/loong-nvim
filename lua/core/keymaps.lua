@@ -36,3 +36,7 @@ map('n', '<leader>wh', '<C-w>h', { desc = 'Go to the left window' })
 map('n', '<leader>wl', '<C-w>l', { desc = 'Go to the right window' })
 map('n', '<leader>wd', '<C-w>c', { desc = 'Delete window' })
 map('n', '<leader>wm', '<C-w>o', { desc = 'Maximize window' })
+
+-- Buffer
+map('n', '<leader><Tab>', ':b#<CR>', { desc = 'Last buffer' })
+-- cosmos.add_leader_keymapping('n|<Tab>', { ':b#<CR>', name = 'Last buffer' })

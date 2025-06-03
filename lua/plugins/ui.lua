@@ -37,3 +37,54 @@ loong.add_plugin('nvimdev/dashboard-nvim', {
   end,
   dependencies = { { 'nvim-tree/nvim-web-devicons' } },
 })
+
+-- bufferline
+-- https://github.com/akinsho/bufferline.nvim
+loong.add_plugin('akinsho/bufferline.nvim', {
+  enent = 'BufRead',
+  config = function()
+    require('bufferline').setup({
+      -- pass
+    })
+    require('which-key').add({
+      {
+        '<leader>bb',
+        "<cmd>lua require('telescope.builtin').buffers { sort_mru = true }<cr>",
+        desc = 'List buffers',
+        mode = 'n',
+      },
+      { '<leader>bn', ':BufferLineCycleNext<CR>', desc = 'Next buffer', mode = 'n' },
+      { '<leader>bp', ':BufferLineCyclePrev<CR>', desc = 'Previous buffer', mode = 'n' },
+      { '<leader>bd', ':bw<CR>', desc = 'Delete buffer', mode = 'n' },
+    })
+  end,
+})
+
+-- notify
+-- https://github.com/rcarriga/nvim-notify
+loong.add_plugin('rcarriga/nvim-notify', {
+  event = 'BufRead',
+  config = function()
+    require('notify').setup({
+      -- Animation style (see below for details)
+      stages = 'fade_in_slide_out',
+    })
+  end,
+})
+
+-- cli
+-- https://github.com/folke/noice.nvim
+loong.add_plugin('folke/noice.nvim', {
+  event = 'VeryLazy',
+  opts = {
+    -- add any options here
+  },
+  dependencies = {
+    -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+    'MunifTanjim/nui.nvim',
+    -- OPTIONAL:
+    --   `nvim-notify` is only needed, if you want to use the notification view.
+    --   If not available, we use `mini` as the fallback
+    'rcarriga/nvim-notify',
+  },
+})

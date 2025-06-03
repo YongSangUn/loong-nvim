@@ -57,3 +57,6 @@ opt.smartcase = true -- but make it case sensitive if an uppercase is entered
 -- disable netrw
 g.loaded_netrw = 1
 g.loaded_netrwPlugin = 1
+
+--- bufferline
+opt.termguicolors = true

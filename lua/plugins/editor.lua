@@ -19,15 +19,6 @@ loong.add_plugin(
             enable = true,
             update_root = true,
           },
-          ---### ahmedkhalf/project.nvim dependencies ---
-          -- actions = {
-          --   open_file = {
-          --     update_focused_file = {
-          --       enable = true,
-          --       update_root = true,
-          --     },
-          --   },
-          -- },
         })
         require('which-key').add({
           { '<leader>ft', '<cmd>NvimTreeToggle<cr>', desc = 'Open NvimTree', mode = 'n' },
@@ -164,30 +155,55 @@ loong.add_plugin('nvim-treesitter/nvim-treesitter', {
     treesitter.setup({
       -- indent = { enable = true },
       sync_install = false,
-      ensure_installed = 'all',
-      -- ensure_installed = {
-        -- 'lua',
-        -- 'markdown',
-        -- 'json',
-        -- 'yaml',
-        -- 'toml',
-        -- 'html',
-        -- 'css',
-        -- 'javascript',
-        -- 'typescript',
-        -- 'c',
-        -- 'cpp',
-        -- 'python',
-        -- 'rust',
-        -- 'go',
-      -- },
+      -- ensure_installed = 'all',
+      ensure_installed = {
+        'lua',
+        'markdown',
+        'json',
+        'yaml',
+        'toml',
+        'html',
+        'css',
+        'javascript',
+        'typescript',
+        'c',
+        'cpp',
+        'python',
+        'rust',
+        'go',
+      },
+      auto_install = false,
       -- https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#modules
       highlight = {
         -- `false` will disable the whole extension
-        -- enable = true,
+        enable = true,
         disable = {},
         additional_vim_regex_highlighting = false,
       },
+    })
+  end,
+})
+
+-- terminal
+-- toggleterm.setup()
+-- https://github.com/akinsho/toggleterm.nvim
+loong.add_plugin('akinsho/toggleterm.nvim', {
+  branch = 'main',
+  event = 'BufRead',
+  config = function()
+    require('toggleterm').setup({
+      -- size can be a number or function which is passed the current terminal
+      size = function(term)
+        if term.direction == 'horizontal' then
+          return 15
+        elseif term.direction == 'vertical' then
+          return vim.o.columns * 0.4
+        end
+      end,
+    })
+
+    require('which-key').add({
+      { "<leader>'", '<cmd>exe v:count1 . "ToggleTerm"<CR>', desc = 'Open shell', mode = 'n' },
     })
   end,
 })
