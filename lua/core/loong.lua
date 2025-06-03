@@ -37,12 +37,6 @@ local function setup()
       wh.setup({})
       wh.add({
         -- { '<leader>', '<cmd><cr>', desc = '', mode = 'n' },
-        { '<leader>1', '1<C-w><C-w>', desc = 'Select Window 1', mode = 'n' },
-        { '<leader>2', '2<C-w><C-w>', desc = 'Select Window 2', mode = 'n' },
-        { '<leader>3', '3<C-w><C-w>', desc = 'Select Window 3', mode = 'n' },
-        { '<leader>4', '4<C-w><C-w>', desc = 'Select Window 4', mode = 'n' },
-        { '<leader>5', '5<C-w><C-w>', desc = 'Select Window 5', mode = 'n' },
-        { '<leader>6', '6<C-w><C-w>', desc = 'Select Window 6', mode = 'n' },
       })
     end,
     keys = {},
@@ -64,8 +58,10 @@ local function setup()
   vim.opt.rtp:prepend(lazypath)
 
   require('lazy').setup(plugins, {
-    checker = { enabled = true },
-    change_detection = { notify = false },
+    -- checker = {
+    --   enabled = true,
+    --   notify = false,
+    -- },
   })
 end
 

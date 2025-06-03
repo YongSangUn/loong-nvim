@@ -17,6 +17,9 @@ loong.add_plugin('mason-org/mason-lspconfig.nvim', {
       'ruff', -- "black", "isort",
       'lua_ls', -- "stylua",
       'gopls', -- "goimports", "gofmt",
+      'yamlls',
+      'helm_ls',
+      'azure_pipelines_ls',
       -- "rustfmt",
       -- "shfmt",
       -- "codespell",
@@ -33,5 +36,19 @@ loong.add_plugin('neovim/nvim-lspconfig', {
     lspconfig.ruff.setup({})
     lspconfig.lua_ls.setup({})
     lspconfig.gopls.setup({})
+    lspconfig.yamlls.setup({
+      settings = {
+        yaml = {
+          schemas = {
+            ['https://raw.githubusercontent.com/yannh/kubernetes-yaml-schema/master/helm.json'] = '/*.helm.yaml',
+            ['https://raw.githubusercontent.com/Azure/azure-pipelines-vscode/master/resources/pipeline.schema.json'] = 'azure-pipelines.yml',
+          },
+        },
+      },
+    })
+    -- Helm Language Server Configuration
+    lspconfig.helm_ls.setup({})
+    -- Azure Pipelines Language Server Configuration
+    lspconfig.azure_pipelines_ls.setup({})
   end,
 })

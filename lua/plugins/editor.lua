@@ -134,3 +134,60 @@ loong.add_plugin('ahmedkhalf/project.nvim', {
     })
   end,
 })
+
+loong.add_plugin('towolf/vim-helm', {
+  ft = 'helm',
+  config = function()
+    vim.filetype.add({
+      pattern = {
+        -- Chart.yaml
+        ['Chart.yaml'] = 'helm',
+        ['values.yaml'] = 'helm',
+        ['.*templates/.*%.yaml'] = 'helm',
+        ['.*templates/.*%.yml'] = 'helm',
+      },
+    })
+  end,
+})
+
+--- Treesitter
+--- https://github.com/nvim-treesitter/nvim-treesitter
+loong.add_plugin('nvim-treesitter/nvim-treesitter', {
+  build = function()
+    if #vim.api.nvim_list_uis() ~= 0 then
+      vim.cmd('TSUpdate')
+    end
+  end,
+  event = { 'BufRead', 'BufNewFile' },
+  config = function()
+    local treesitter = require('nvim-treesitter.configs')
+    treesitter.setup({
+      -- indent = { enable = true },
+      sync_install = false,
+      ensure_installed = 'all',
+      -- ensure_installed = {
+        -- 'lua',
+        -- 'markdown',
+        -- 'json',
+        -- 'yaml',
+        -- 'toml',
+        -- 'html',
+        -- 'css',
+        -- 'javascript',
+        -- 'typescript',
+        -- 'c',
+        -- 'cpp',
+        -- 'python',
+        -- 'rust',
+        -- 'go',
+      -- },
+      -- https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#modules
+      highlight = {
+        -- `false` will disable the whole extension
+        -- enable = true,
+        disable = {},
+        additional_vim_regex_highlighting = false,
+      },
+    })
+  end,
+})
