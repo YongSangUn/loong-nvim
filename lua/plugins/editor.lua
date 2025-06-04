@@ -142,6 +142,8 @@ loong.add_plugin('towolf/vim-helm', {
 --- Treesitter
 --- https://github.com/nvim-treesitter/nvim-treesitter
 loong.add_plugin('nvim-treesitter/nvim-treesitter', {
+  lazy = false, -- does not support lazy-loading
+  branch = 'main',
   build = function()
     if #vim.api.nvim_list_uis() ~= 0 then
       vim.cmd('TSUpdate')
@@ -149,35 +151,12 @@ loong.add_plugin('nvim-treesitter/nvim-treesitter', {
   end,
   event = { 'BufRead', 'BufNewFile' },
   config = function()
-    local treesitter = require('nvim-treesitter.configs')
-    treesitter.setup({
-      -- indent = { enable = true },
-      sync_install = false,
-      -- ensure_installed = 'all',
-      ensure_installed = {
-        'lua',
-        'markdown',
-        'json',
-        'yaml',
-        'toml',
-        'html',
-        'css',
-        'javascript',
-        'typescript',
-        'c',
-        'cpp',
-        'python',
-        'rust',
-        'go',
-      },
-      auto_install = false,
-      -- https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#modules
-      highlight = {
-        -- `false` will disable the whole extension
-        -- enable = true,
-        disable = {},
-        additional_vim_regex_highlighting = false,
-      },
+    -- treesitter highlight
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = { '<filetype>' },
+      callback = function()
+        vim.treesitter.start()
+      end,
     })
   end,
 })
