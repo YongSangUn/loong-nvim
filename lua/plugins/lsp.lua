@@ -31,24 +31,32 @@ loong.add_plugin('mason-org/mason-lspconfig.nvim', {
 -- Quickstart configs for Nvim LSP
 -- https://github.com/neovim/nvim-lspconfig
 loong.add_plugin('neovim/nvim-lspconfig', {
-  config = function()
-    local lspconfig = require('lspconfig')
-    lspconfig.ruff.setup({})
-    lspconfig.lua_ls.setup({})
-    lspconfig.gopls.setup({})
-    lspconfig.yamlls.setup({
-      settings = {
-        yaml = {
-          schemas = {
-            ['https://raw.githubusercontent.com/yannh/kubernetes-yaml-schema/master/helm.json'] = '/*.helm.yaml',
-            ['https://raw.githubusercontent.com/Azure/azure-pipelines-vscode/master/resources/pipeline.schema.json'] = 'azure-pipelines.yml',
+  opts = {
+    servers = {
+      ruff = {},
+      lua_ls = {},
+      gopls = {},
+      yamlls = {
+        settings = {
+          yaml = {
+            schemas = {
+              ['https://raw.githubusercontent.com/yannh/kubernetes-yaml-schema/master/helm.json'] = '/*.helm.yaml',
+              ['https://raw.githubusercontent.com/Azure/azure-pipelines-vscode/master/resources/pipeline.schema.json'] = 'azure-pipelines.yml',
+            },
           },
         },
       },
-    })
-    -- Helm Language Server Configuration
-    lspconfig.helm_ls.setup({})
-    -- Azure Pipelines Language Server Configuration
-    lspconfig.azure_pipelines_ls.setup({})
+      helm_ls = {},
+      azure_pipelines_ls = {},
+    },
+  },
+  config = function(_, opts)
+    local lspconfig = require('lspconfig')
+    for server, config in pairs(opts.servers) do
+      -- passing config.capabilities to blink.cmp merges with the capabilities in your
+      -- `opts[server].capabilities, if you've defined it
+      config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
+      lspconfig[server].setup(config)
+    end
   end,
 })

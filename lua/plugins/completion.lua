@@ -16,7 +16,7 @@ loong.add_plugin(
     },
 
     -- use a release tag to download pre-built binaries
-    version = '1.*',
+    version = '*',
     -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
     -- build = 'cargo build --release',
     -- If you use nix, you can build from source using latest nightly rust with:
@@ -37,13 +37,10 @@ loong.add_plugin(
       -- C-k: Toggle signature help (if signature.enabled = true)
       --
       -- See :h blink-cmp-config-keymap for defining your own keymap
-      -- keymap = { preset = 'default' },
-      keymap = {
-        -- preset = 'enter',
-        -- Select completions
-        -- ['<Tab>'] = { 'select_next', 'fallback' },
-        -- ['<S-Tab>'] = { 'select_prev', 'fallback' },
-      },
+      keymap = { preset = 'enter' },
+
+      -- disable cmdline
+      cmdline = { enabled = false },
 
       appearance = {
         -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
@@ -52,35 +49,29 @@ loong.add_plugin(
       },
 
       -- (Default) Only show the documentation popup when manually triggered
-      completion = {
-        -- The keyword should only match against the text before
-        keyword = { range = 'prefix' },
-        menu = {
-          -- Use treesitter to highlight the label text for the given list of sources
-          draw = {
-            treesitter = { 'lsp' },
-          },
-        },
-        -- Show completions after typing a trigger character, defined by the source
-        trigger = { show_on_trigger_character = true },
-        documentation = {
-          -- Show documentation automatically
-          auto_show = true,
-        },
-      },
-      -- completion = { documentation = { auto_show = false } },
+      completion = { documentation = { auto_show = false } },
 
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { 'avante', 'lsp', 'path', 'snippets', 'buffer' },
+        -- default = { 'avante', 'lsp', 'path', 'snippets', 'buffer' },
+        -- promblem for avante, ref:
+        --   https://github.com/Kaiser-Yang/blink-cmp-avante/issues/7#issuecomment-2865110680
+        default = function()
+          local ss = { 'lsp', 'path', 'snippets', 'buffer' }
+          if vim.bo.filetype == 'AvanteInput' then
+            ss[#ss + 1] = 'avante'
+          elseif vim.tbl_contains({ 'markdown', 'Avante' }, vim.bo.filetype) then
+            vim.list_extend(ss, { 'buffer', 'ripgrep', 'dictionary' })
+          end
+          return ss
+        end,
+
         providers = {
           avante = {
+            -- https://github.com/Kaiser-Yang/blink-cmp-avante?tab=readme-ov-file#lazynvim
             module = 'blink-cmp-avante',
             name = 'Avante',
-            opts = {
-              -- options for blink-cmp-avante
-            },
           },
         },
       },
@@ -214,28 +205,27 @@ loong.add_plugin('yetone/avante.nvim', {
     'MunifTanjim/nui.nvim',
     --- The below dependencies are optional,
     'echasnovski/mini.pick', -- for file_selector provider mini.pick
-    'nvim-telescope/telescope.nvim', -- for file_selector provider telescope
-    'hrsh7th/nvim-cmp', -- autocompletion for avante commands and mentions
     'ibhagwan/fzf-lua', -- for file_selector provider fzf
     'nvim-tree/nvim-web-devicons', -- or echasnovski/mini.icons
-    'zbirenbaum/copilot.lua', -- for providers='copilot'
-    {
-      -- support for image pasting
-      'HakonHarnes/img-clip.nvim',
-      event = 'VeryLazy',
-      opts = {
-        -- recommended settings
-        default = {
-          embed_image_as_base64 = false,
-          prompt_for_file_name = false,
-          drag_and_drop = {
-            insert_mode = true,
-          },
-          -- required for Windows users
-          use_absolute_path = true,
-        },
-      },
-    },
+    -- 'nvim-telescope/telescope.nvim', -- for file_selector provider telescope
+    -- 'zbirenbaum/copilot.lua', -- for providers='copilot'
+    -- {
+    --   -- support for image pasting
+    --   'HakonHarnes/img-clip.nvim',
+    --   event = 'VeryLazy',
+    --   opts = {
+    --     -- recommended settings
+    --     default = {
+    --       embed_image_as_base64 = false,
+    --       prompt_for_file_name = false,
+    --       drag_and_drop = {
+    --         insert_mode = true,
+    --       },
+    --       -- required for Windows users
+    --       use_absolute_path = true,
+    --     },
+    --   },
+    -- },
     {
       -- Make sure to set this up properly if you have lazy=true
       'MeanderingProgrammer/render-markdown.nvim',
