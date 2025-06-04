@@ -39,4 +39,19 @@ map('n', '<leader>wm', '<C-w>o', { desc = 'Maximize window' })
 
 -- Buffer
 map('n', '<leader><Tab>', ':b#<CR>', { desc = 'Last buffer' })
--- cosmos.add_leader_keymapping('n|<Tab>', { ':b#<CR>', name = 'Last buffer' })
+
+-- jump
+map('n', '<leader>jj', '<cmd>lua require("flash").remote()<cr>', { desc = 'Jump to a char' })
+map('v', '<leader>jj', '<cmd>lua require("flash").remote()<cr>')
+map(
+  'n',
+  '<leader>jl',
+  '<cmd>lua require("flash").jump({ search = { mode = "search", max_length = 0 }, label = { after = { 0, 0 } }, pattern = "^" })<cr>',
+  { desc = 'Jump to a line' }
+)
+map(
+  'n',
+  '<leader>ji',
+  '<cmd>lua require("telescope.builtin").lsp_document_symbols()<cr>',
+  { desc = 'Jump to a symbol' }
+)

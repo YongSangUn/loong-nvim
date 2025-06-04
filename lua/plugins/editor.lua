@@ -1,6 +1,5 @@
 -- Manages configurations for plugins that improve the core text editing experience.
 -- Covers text manipulation, movement, commenting, and structural editing.
-
 local loong = require('core.loong')
 
 loong.add_plugin(
@@ -10,21 +9,21 @@ loong.add_plugin(
   {
     dependencies = {
       'nvim-tree/nvim-web-devicons',
-      config = function()
-        require('nvim-tree').setup({
-          ---### ahmedkhalf/project.nvim dependencies ---
-          sync_root_with_cwd = true,
-          respect_buf_cwd = true,
-          update_focused_file = {
-            enable = true,
-            update_root = true,
-          },
-        })
-        require('which-key').add({
-          { '<leader>ft', '<cmd>NvimTreeToggle<cr>', desc = 'Open NvimTree', mode = 'n' },
-        })
-      end,
     },
+    config = function()
+      require('nvim-tree').setup({
+        ---### ahmedkhalf/project.nvim dependencies ---
+        sync_root_with_cwd = true,
+        respect_buf_cwd = true,
+        update_focused_file = {
+          enable = true,
+          update_root = true,
+        },
+      })
+      require('which-key').add({
+        { '<leader>ft', '<cmd>NvimTreeToggle<cr>', desc = 'Open NvimTree', mode = 'n' },
+      })
+    end,
   }
 )
 
@@ -50,7 +49,6 @@ loong.add_plugin('stevearc/conform.nvim', {
       formatters_by_ft = {
         lua = { 'stylua' },
         go = { 'goimports', 'gofmt' },
-        rust = { 'rustfmt', lsp_format = 'fallback' },
         sh = { 'shfmt' },
         python = function(bufnr)
           if require('conform').get_formatter_info('ruff_format', bufnr).available then
@@ -176,7 +174,7 @@ loong.add_plugin('nvim-treesitter/nvim-treesitter', {
       -- https://github.com/nvim-treesitter/nvim-treesitter?tab=readme-ov-file#modules
       highlight = {
         -- `false` will disable the whole extension
-        enable = true,
+        -- enable = true,
         disable = {},
         additional_vim_regex_highlighting = false,
       },
@@ -204,6 +202,70 @@ loong.add_plugin('akinsho/toggleterm.nvim', {
 
     require('which-key').add({
       { "<leader>'", '<cmd>exe v:count1 . "ToggleTerm"<CR>', desc = 'Open shell', mode = 'n' },
+    })
+  end,
+})
+
+-- code navigation
+-- https://github.com/folke/flash.nvim
+loong.add_plugin('folke/flash.nvim', {
+  event = 'VeryLazy',
+  opts = {},
+  keys = {
+    {
+      's',
+      mode = { 'n', 'x', 'o' },
+      function()
+        require('flash').jump()
+      end,
+      desc = 'Flash',
+    },
+    {
+      'S',
+      mode = { 'n', 'x', 'o' },
+      function()
+        require('flash').treesitter()
+      end,
+      desc = 'Flash Treesitter',
+    },
+    {
+      'r',
+      mode = 'o',
+      function()
+        require('flash').remote()
+      end,
+      desc = 'Remote Flash',
+    },
+    {
+      'R',
+      mode = { 'o', 'x' },
+      function()
+        require('flash').treesitter_search()
+      end,
+      desc = 'Treesitter Search',
+    },
+    {
+      '<c-s>',
+      mode = { 'c' },
+      function()
+        require('flash').toggle()
+      end,
+      desc = 'Toggle Flash Search',
+    },
+  },
+})
+
+-- markdown
+-- https://github.com/MeanderingProgrammer/render-markdown.nvim
+loong.add_plugin('MeanderingProgrammer/render-markdown.nvim', {
+  dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
+  ---@module 'render-markdown'
+  ---@type render.md.UserConfig
+  ft = { 'markdown', 'Avante', 'vimwiki' },
+  config = function()
+    require('render-markdown').setup({
+      completions = { blink = { enabled = true } },
+      file_types = { 'markdown', 'vimwiki', 'Avante' },
     })
   end,
 })

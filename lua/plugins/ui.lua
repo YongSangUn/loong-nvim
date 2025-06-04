@@ -89,3 +89,13 @@ loong.add_plugin('folke/noice.nvim', {
     'rcarriga/nvim-notify',
   },
 })
+
+-- nvim-web-devicons
+-- https://github.com/nvim-tree/nvim-web-devicons
+loong.add_plugin('nvim-tree/nvim-web-devicons', {
+  config = function()
+    require('nvim-web-devicons').setup({
+      -- your personnal icons can go here (to override)
+    })
+  end,
+})
