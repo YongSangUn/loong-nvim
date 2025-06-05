@@ -58,11 +58,15 @@ loong.add_plugin(
         -- promblem for avante, ref:
         --   https://github.com/Kaiser-Yang/blink-cmp-avante/issues/7#issuecomment-2865110680
         default = function()
+          local ft = vim.bo.filetype
+          if ft == 'DressingInput' then
+            return { 'path', 'buffer' }
+          end
           local ss = { 'lsp', 'path', 'snippets', 'buffer' }
-          if vim.bo.filetype == 'AvanteInput' then
+          if ft == 'AvanteInput' then
             ss[#ss + 1] = 'avante'
           elseif vim.tbl_contains({ 'markdown', 'Avante' }, vim.bo.filetype) then
-            vim.list_extend(ss, { 'buffer', 'ripgrep', 'dictionary' })
+            vim.list_extend(ss, { 'buffer' }) -- , 'ripgrep', 'dictionary' })
           end
           return ss
         end,
