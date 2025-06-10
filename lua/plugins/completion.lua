@@ -60,7 +60,8 @@ loong.add_plugin(
         default = function()
           local ft = vim.bo.filetype
           if ft == 'DressingInput' then
-            return { 'path', 'buffer' }
+            -- return { 'path', 'buffer' }
+            return {}
           end
           local ss = { 'lsp', 'path', 'snippets', 'buffer' }
           if ft == 'AvanteInput' then
