@@ -60,18 +60,6 @@ loong.add_plugin('akinsho/bufferline.nvim', {
   end,
 })
 
--- notify
--- https://github.com/rcarriga/nvim-notify
-loong.add_plugin('rcarriga/nvim-notify', {
-  event = 'BufRead',
-  config = function()
-    require('notify').setup({
-      -- Animation style (see below for details)
-      stages = 'fade_in_slide_out',
-      background_colour = '#000000',
-    })
-  end,
-})
 
 -- cli
 -- https://github.com/folke/noice.nvim

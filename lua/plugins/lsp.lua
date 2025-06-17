@@ -3,40 +3,57 @@
 
 local loong = require('core.loong')
 
-loong.add_plugin('mason-org/mason.nvim', { opts = {} })
-
--- handle the inconsistent naming issue between mason.nvim and nvim-lspconfig.
--- https://github.com/mason-org/mason-lspconfig.nvim
-loong.add_plugin('mason-org/mason-lspconfig.nvim', {
+-- ref: https://github.com/Shaobin-Jiang/IceNvim/blob/a11738f57ec371960ed7d13d7ec85a90834a81ca/lua/lsp/plugins.lua#L50
+loong.add_plugin('mason-org/mason.nvim', {
   dependencies = {
-    'mason-org/mason.nvim',
     'neovim/nvim-lspconfig',
+    'mason-org/mason-lspconfig.nvim',
   },
-  opts = {
-    ensure_installed = {
-      'ruff', -- "black", "isort",
-      'lua_ls', -- "stylua",
-      'gopls', -- "goimports", "gofmt",
-      'yamlls',
-      'helm_ls',
-      'azure_pipelines_ls',
-      -- "rustfmt",
-      -- "shfmt",
-      -- "codespell",
-      -- "trim_whitespace",
-    },
-  },
-})
-
--- Quickstart configs for Nvim LSP
--- https://github.com/neovim/nvim-lspconfig
-loong.add_plugin('neovim/nvim-lspconfig', {
-  opts = {
-    servers = {
-      ruff = {},
-      lua_ls = {},
-      gopls = {},
-      yamlls = {
+  -- event = { 'BufReadPre', 'BufNewFile' },
+  config = function()
+    local servers = {
+      ['bash-language-server'] = { formatter = 'shfmt' },
+      pyright = { formatter = 'black' },
+      -- ruff = { formatter = 'black' },
+      ['lua-language-server'] = {
+        formatter = 'stylua',
+        setup = {
+          settings = {
+            Lua = {
+              runtime = {
+                version = 'LuaJIT',
+                path = (function()
+                  local runtime_path = vim.split(package.path, ';')
+                  table.insert(runtime_path, 'lua/?.lua')
+                  table.insert(runtime_path, 'lua/?/init.lua')
+                  return runtime_path
+                end)(),
+              },
+              diagnostics = {
+                globals = { 'vim' },
+              },
+              hint = {
+                enable = true,
+              },
+              workspace = {
+                library = {
+                  vim.env.VIMRUNTIME,
+                  '${3rd}/luv/library',
+                },
+                checkThirdParty = false,
+              },
+              telemetry = {
+                enable = false,
+              },
+            },
+          },
+        },
+      },
+      gopls = { formatter = 'gofmt' },
+      ['azure-pipelines-language-server'] = {},
+      ['helm-ls'] = {},
+      ['yaml-language-server'] = {
+        fotmatter = 'prettier',
         settings = {
           yaml = {
             schemas = {
@@ -46,17 +63,80 @@ loong.add_plugin('neovim/nvim-lspconfig', {
           },
         },
       },
-      helm_ls = {},
-      azure_pipelines_ls = {},
-    },
-  },
-  config = function(_, opts)
-    local lspconfig = require('lspconfig')
-    for server, config in pairs(opts.servers) do
-      -- passing config.capabilities to blink.cmp merges with the capabilities in your
-      -- `opts[server].capabilities, if you've defined it
-      config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
-      lspconfig[server].setup(config)
+      ['json-lsp'] = { formatter = 'prettier' },
+    }
+
+    require('mason').setup()
+    local notify = require('notify')
+
+    local registry = require('mason-registry')
+    local function install(package)
+      local s, p = pcall(registry.get_package, package)
+      if s and not p:is_installed() then
+        notify('Mason installing ' .. package)
+        p:install()
+      end
     end
+
+    local lspconfig = require('lspconfig')
+    local mason_lspconfig_mapping = require('mason-lspconfig').get_mappings().package_to_lspconfig
+
+    local installed_packages = registry.get_installed_package_names()
+
+    for lsp, config in pairs(servers) do
+      if not vim.tbl_contains(installed_packages, lsp) then
+        goto continue
+      end
+
+      local formatter = config.formatter
+      install(lsp)
+      if formatter ~= nil then
+        install(formatter)
+      end
+
+      lsp = mason_lspconfig_mapping[lsp]
+      if not config.managed_by_plugin and lspconfig[lsp] ~= nil then
+        notify('Mason configuring ' .. lsp)
+        local setup = config.setup
+        if type(setup) == 'function' then
+          setup = setup()
+        elseif setup == nil then
+          setup = {}
+        end
+
+        local blink_capabilities = require('blink.cmp').get_lsp_capabilities()
+        blink_capabilities.textDocument.foldingRange = {
+          dynamicRegistration = false,
+          lineFoldingOnly = true,
+        }
+        setup = vim.tbl_deep_extend('force', setup, {
+          capabilities = blink_capabilities,
+        })
+
+        vim.lsp.config(lsp, setup)
+      end
+      ::continue::
+    end
+
+    vim.diagnostic.config({
+      update_in_insert = true,
+      severity_sort = true, -- necessary for lspsaga's show_line_diagnostics to work
+      virtual_text = true,
+    })
+    local signs = {
+      Error = '',
+      Warn = '',
+      Hint = '',
+      Info = '',
+    }
+    for type, icon in pairs(signs) do
+      local hl = 'DiagnosticSign' .. type
+      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+    end
+
+    vim.lsp.inlay_hint.enable()
+
+    vim.cmd('LspStart')
   end,
 })
+

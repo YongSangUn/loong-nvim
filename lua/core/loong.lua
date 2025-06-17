@@ -21,6 +21,19 @@ local function load_plugins()
 end
 
 local function setup()
+  -- notify
+  -- https://github.com/rcarriga/nvim-notify
+  M.add_plugin('rcarriga/nvim-notify', {
+    event = 'BufRead',
+    config = function()
+      require('notify').setup({
+        -- Animation style (see below for details)
+        stages = 'fade_in_slide_out',
+        background_colour = '#000000',
+      })
+    end,
+  })
+
   load_plugins()
 
   -- show keybindings in popup.
