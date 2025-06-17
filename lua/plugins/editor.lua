@@ -141,23 +141,58 @@ loong.add_plugin('towolf/vim-helm', {
 
 --- Treesitter
 --- https://github.com/nvim-treesitter/nvim-treesitter
+--- ref: https://github.com/Shaobin-Jiang/IceNvim/blob/a11738f57ec371960ed7d13d7ec85a90834a81ca/lua/plugins/config.lua#L567
 loong.add_plugin('nvim-treesitter/nvim-treesitter', {
-  lazy = false, -- does not support lazy-loading
+  build = ':TSUpdate',
   branch = 'main',
-  build = function()
-    if #vim.api.nvim_list_uis() ~= 0 then
-      vim.cmd('TSUpdate')
-    end
-  end,
-  event = { 'BufRead', 'BufNewFile' },
   config = function()
-    -- treesitter highlight
+    local ensure_installed = {
+      'bash',
+      'c',
+      'c_sharp',
+      'cpp',
+      'css',
+      'go',
+      'html',
+      'javascript',
+      'json',
+      'lua',
+      'markdown',
+      'markdown_inline',
+      'python',
+      'rust',
+      'toml',
+      'vim',
+      'vimdoc',
+    }
+    local nvim_treesitter = require('nvim-treesitter')
+    nvim_treesitter.setup()
+
+    local pattern = {}
+    for _, parser in ipairs(ensure_installed) do
+      local has_parser, _ = pcall(vim.treesitter.language.inspect, parser)
+
+      if not has_parser then
+        -- Needs restart to take effect
+        nvim_treesitter.install(parser)
+      else
+        vim.list_extend(pattern, vim.treesitter.language.get_filetypes(parser))
+      end
+    end
+    local group = vim.api.nvim_create_augroup('NvimTreesitterFt', { clear = true })
     vim.api.nvim_create_autocmd('FileType', {
-      pattern = { '<filetype>' },
-      callback = function()
-        vim.treesitter.start()
+      group = group,
+      pattern = pattern,
+      callback = function(ev)
+        local max_filesize = 100 * 1024
+        local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(ev.buf))
+        if not (ok and stats and stats.size > max_filesize) then
+          vim.treesitter.start()
+        end
       end,
     })
+
+    vim.api.nvim_exec_autocmds('FileType', { group = 'NvimTreesitterFt' })
   end,
 })
 
