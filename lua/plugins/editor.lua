@@ -61,9 +61,9 @@ loong.add_plugin('stevearc/conform.nvim', {
         ['_'] = { 'trim_whitespace' },
       },
       -- format_on_save = {
-      -- 	lsp_fallback = true,
-      -- 	async = false,
-      -- 	timeout_ms = 500,
+      --   lsp_fallback = true,
+      --   async = false,
+      --   timeout_ms = 500,
       -- },
       formatters = {
         injected = { options = { ignore_errors = true } },

@@ -9,62 +9,9 @@ loong.add_plugin('mason-org/mason.nvim', {
     'neovim/nvim-lspconfig',
     'mason-org/mason-lspconfig.nvim',
   },
-  -- event = { 'BufReadPre', 'BufNewFile' },
+  event = { 'BufReadPre', 'BufNewFile' },
   config = function()
-    local servers = {
-      ['bash-language-server'] = { formatter = 'shfmt' },
-      pyright = { formatter = 'black' },
-      -- ruff = { formatter = 'black' },
-      ['lua-language-server'] = {
-        formatter = 'stylua',
-        setup = {
-          settings = {
-            Lua = {
-              runtime = {
-                version = 'LuaJIT',
-                path = (function()
-                  local runtime_path = vim.split(package.path, ';')
-                  table.insert(runtime_path, 'lua/?.lua')
-                  table.insert(runtime_path, 'lua/?/init.lua')
-                  return runtime_path
-                end)(),
-              },
-              diagnostics = {
-                globals = { 'vim' },
-              },
-              hint = {
-                enable = true,
-              },
-              workspace = {
-                library = {
-                  vim.env.VIMRUNTIME,
-                  '${3rd}/luv/library',
-                },
-                checkThirdParty = false,
-              },
-              telemetry = {
-                enable = false,
-              },
-            },
-          },
-        },
-      },
-      gopls = { formatter = 'gofmt' },
-      ['azure-pipelines-language-server'] = {},
-      ['helm-ls'] = {},
-      ['yaml-language-server'] = {
-        fotmatter = 'prettier',
-        settings = {
-          yaml = {
-            schemas = {
-              ['https://raw.githubusercontent.com/yannh/kubernetes-yaml-schema/master/helm.json'] = '/*.helm.yaml',
-              ['https://raw.githubusercontent.com/Azure/azure-pipelines-vscode/master/resources/pipeline.schema.json'] = 'azure-pipelines.yml',
-            },
-          },
-        },
-      },
-      ['json-lsp'] = { formatter = 'prettier' },
-    }
+    local LspConfig = require('plugins.lsp_config')
 
     require('mason').setup()
     local notify = require('notify')
@@ -83,7 +30,7 @@ loong.add_plugin('mason-org/mason.nvim', {
 
     local installed_packages = registry.get_installed_package_names()
 
-    for lsp, config in pairs(servers) do
+    for lsp, config in pairs(LspConfig) do
       if not vim.tbl_contains(installed_packages, lsp) then
         goto continue
       end
@@ -96,7 +43,6 @@ loong.add_plugin('mason-org/mason.nvim', {
 
       lsp = mason_lspconfig_mapping[lsp]
       if not config.managed_by_plugin and lspconfig[lsp] ~= nil then
-        notify('Mason configuring ' .. lsp)
         local setup = config.setup
         if type(setup) == 'function' then
           setup = setup()
@@ -113,30 +59,29 @@ loong.add_plugin('mason-org/mason.nvim', {
           capabilities = blink_capabilities,
         })
 
+        -- print(lsp .. ' setup: ', vim.inspect(setup))
         vim.lsp.config(lsp, setup)
+        vim.lsp.enable(lsp)
       end
       ::continue::
     end
 
     vim.diagnostic.config({
       update_in_insert = true,
-      severity_sort = true, -- necessary for lspsaga's show_line_diagnostics to work
+      severity_sort = true,
       virtual_text = true,
+      signs = {
+        text = {
+          [vim.diagnostic.severity.ERROR] = '',
+          [vim.diagnostic.severity.WARN] = '',
+          [vim.diagnostic.severity.HINT] = '',
+          [vim.diagnostic.severity.INFO] = '',
+        },
+      },
     })
-    local signs = {
-      Error = '',
-      Warn = '',
-      Hint = '',
-      Info = '',
-    }
-    for type, icon in pairs(signs) do
-      local hl = 'DiagnosticSign' .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-    end
 
     vim.lsp.inlay_hint.enable()
 
     vim.cmd('LspStart')
   end,
 })
-
