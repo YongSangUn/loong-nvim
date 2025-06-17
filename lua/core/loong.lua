@@ -13,6 +13,7 @@ function M.add_plugin(name, opts)
 end
 
 local function load_plugins()
+  require('plugins.theme')
   require('plugins.completion')
   require('plugins.editor')
   require('plugins.git')
