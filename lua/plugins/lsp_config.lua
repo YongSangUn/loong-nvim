@@ -2,8 +2,26 @@ local LspConfig = {}
 
 LspConfig = {
   ['bash-language-server'] = { formatter = 'shfmt' },
-  pyright = { formatter = 'black' },
-  -- ruff = { formatter = 'black' },
+  ['python-lsp-server'] = {
+    setup = {
+      settings = {
+        pylsp = {
+          plugins = {
+            pycodestyle = { enabled = false },
+            pyflakes = { enabled = false },
+          },
+        },
+      },
+    },
+  },
+  ruff = {
+    formatter = 'black',
+    setup = {
+      init_options = {
+        settings = { lineLength = 120 },
+      },
+    },
+  },
   ['lua-language-server'] = {
     formatter = 'stylua',
     setup = {
@@ -38,7 +56,7 @@ LspConfig = {
       },
     },
   },
-  gopls = { formatter = 'gofmt' },
+  gopls = { formatter = 'gofumpt' },
   ['azure-pipelines-language-server'] = {},
   ['helm-ls'] = {},
   ['yaml-language-server'] = {
