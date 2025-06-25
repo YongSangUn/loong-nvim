@@ -60,7 +60,6 @@ loong.add_plugin('akinsho/bufferline.nvim', {
   end,
 })
 
-
 -- cli
 -- https://github.com/folke/noice.nvim
 loong.add_plugin('folke/noice.nvim', {
@@ -85,5 +84,15 @@ loong.add_plugin('nvim-tree/nvim-web-devicons', {
     require('nvim-web-devicons').setup({
       -- your personnal icons can go here (to override)
     })
+  end,
+})
+
+-- lualine
+-- https://github.com/nvim-lualine/lualine.nvim
+loong.add_plugin('nvim-lualine/lualine.nvim', {
+  event = 'VeryLazy',
+  dependencies = { 'nvim-tree/nvim-web-devicons' },
+  config = function()
+    require('lualine').setup({})
   end,
 })

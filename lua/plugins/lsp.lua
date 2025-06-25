@@ -35,7 +35,7 @@ loong.add_plugin('mason-org/mason.nvim', {
     local installed_packages = registry.get_installed_package_names()
     -- notify('Installed packages: ' .. vim.inspect(installed_packages))
 
-    for lsp, _ in pairs(LspConfig) do
+    for lsp, config in pairs(LspConfig) do
       -- notify('Installing LSP: ' .. lsp)
       if vim.tbl_contains(installed_packages, lsp) then
         goto continue
@@ -92,4 +92,47 @@ loong.add_plugin('mason-org/mason.nvim', {
 
     vim.lsp.inlay_hint.enable()
   end,
+})
+
+-- lspsaga
+-- https://github.com/glepnir/lspsaga.nvim
+loong.add_plugin('glepnir/lspsaga.nvim', {
+  cmd = 'Lspsaga',
+  opts = {
+    symbol_in_winbar = {
+      enable = false,
+    },
+  },
+  config = function()
+    require('lspsaga').setup({})
+  end,
+  keys = {
+    { '<leader>lr', '<Cmd>Lspsaga rename<CR>', desc = 'rename', silent = true },
+    { '<leader>lc', '<Cmd>Lspsaga code_action<CR>', desc = 'code action', silent = true },
+    { '<leader>ld', '<Cmd>Lspsaga goto_definition<CR>', desc = 'go to definition', silent = true },
+    {
+      '<leader>lh',
+      function()
+        local win = require('lspsaga.window')
+        local old_new_float = win.new_float
+        win.new_float = function(self, float_opt, enter, force)
+          local window = old_new_float(self, float_opt, enter, force)
+          local _, winid = window:wininfo()
+          vim.api.nvim_set_current_win(winid)
+
+          win.new_float = old_new_float
+          return window
+        end
+
+        vim.cmd('Lspsaga hover_doc')
+      end,
+      desc = 'hover doc',
+      silent = true,
+    },
+    { '<leader>lR', '<Cmd>Lspsaga finder<CR>', desc = 'references', silent = true },
+    { '<leader>li', '<Cmd>Lspsaga finder<CR>', desc = 'go_to_implementation', silent = true },
+    { '<leader>lP', '<Cmd>Lspsaga show_line_diagnostics<CR>', desc = 'show_line_diagnostic', silent = true },
+    { '<leader>ln', '<Cmd>Lspsaga diagnostic_jump_next<CR>', desc = 'next_diagnostic', silent = true },
+    { '<leader>lp', '<Cmd>Lspsaga diagnostic_jump_prev<CR>', desc = 'prev_diagnostic', silent = true },
+  },
 })
