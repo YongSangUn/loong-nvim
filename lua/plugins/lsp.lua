@@ -11,10 +11,12 @@ loong.add_plugin('mason-org/mason.nvim', {
   },
   event = { 'BufReadPre', 'BufNewFile' },
   config = function()
+    local notify = require('notify')
+    -- notify('Mason config function started.')
     local LspConfig = require('plugins.lsp_config')
+    -- notify('LspConfig content: ' .. vim.inspect(LspConfig))
 
     require('mason').setup()
-    local notify = require('notify')
 
     local registry = require('mason-registry')
     local function install(package)
@@ -22,6 +24,8 @@ loong.add_plugin('mason-org/mason.nvim', {
       if s and not p:is_installed() then
         notify('Mason installing ' .. package)
         p:install()
+      else
+        notify('Mason ' .. package .. ' already installed')
       end
     end
 
@@ -29,9 +33,11 @@ loong.add_plugin('mason-org/mason.nvim', {
     local mason_lspconfig_mapping = require('mason-lspconfig').get_mappings().package_to_lspconfig
 
     local installed_packages = registry.get_installed_package_names()
+    -- notify('Installed packages: ' .. vim.inspect(installed_packages))
 
-    for lsp, config in pairs(LspConfig) do
-      if not vim.tbl_contains(installed_packages, lsp) then
+    for lsp, _ in pairs(LspConfig) do
+      -- notify('Installing LSP: ' .. lsp)
+      if vim.tbl_contains(installed_packages, lsp) then
         goto continue
       end
 
@@ -41,8 +47,13 @@ loong.add_plugin('mason-org/mason.nvim', {
         install(formatter)
       end
 
+      ::continue::
+    end
+
+    for lsp, config in pairs(LspConfig) do
       lsp = mason_lspconfig_mapping[lsp]
       if not config.managed_by_plugin and lspconfig[lsp] ~= nil then
+        -- notify('Setup LSP: ' .. lsp)
         local setup = config.setup
         if type(setup) == 'function' then
           setup = setup()
@@ -59,11 +70,10 @@ loong.add_plugin('mason-org/mason.nvim', {
           capabilities = blink_capabilities,
         })
 
-        -- print(lsp .. ' setup: ', vim.inspect(setup))
+        -- notify('Setup done ' .. lsp .. ': ' .. vim.inspect(setup))
         vim.lsp.config(lsp, setup)
         vim.lsp.enable(lsp)
       end
-      ::continue::
     end
 
     vim.diagnostic.config({
@@ -81,7 +91,5 @@ loong.add_plugin('mason-org/mason.nvim', {
     })
 
     vim.lsp.inlay_hint.enable()
-
-    vim.cmd('LspStart')
   end,
 })
