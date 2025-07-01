@@ -130,13 +130,8 @@ loong.add_plugin('yetone/avante.nvim', {
         },
       },
       gemini = {
-        model = 'gemini-2.5-flash-preview-05-20',
-        -- model = 'gemini-2.5-pro-preview-05-06',
-        -- model = 'gemini-2.5-pro-preview-03-25',
-        -- model = 'gemini-2.5-pro-exp-03-25',
-        -- model = 'gemini-2.0-flash-exp',
-        -- model = 'gemini-2.0-pro-exp',
-        -- model = 'gemini-2.0-flash-thinking-exp-1219',
+        model = 'gemini-2.5-pro'
+        -- model = 'gemini-2.5-flash'
       },
       ds_r1 = {
         __inherited_from = 'or_dsv3',
