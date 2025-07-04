@@ -5,32 +5,32 @@ local plugins_seen = {}
 
 function M.add_plugin(name, opts)
   if plugins_seen[name] then
-    print('Plugin ' .. name .. ' already added')
+    print("Plugin " .. name .. " already added")
     return
   end
-  plugins[#plugins + 1] = vim.tbl_extend('force', { name }, opts or {})
+  plugins[#plugins + 1] = vim.tbl_extend("force", { name }, opts or {})
   plugins_seen[name] = true
 end
 
 local function load_plugins()
-  require('plugins.theme')
-  require('plugins.completion')
-  require('plugins.editor')
-  require('plugins.git')
-  require('plugins.lsp')
-  require('plugins.ui')
+  require("plugins.theme")
+  require("plugins.completion")
+  require("plugins.editor")
+  require("plugins.git")
+  require("plugins.lsp")
+  require("plugins.ui")
 end
 
 local function setup()
   -- notify
   -- https://github.com/rcarriga/nvim-notify
-  M.add_plugin('rcarriga/nvim-notify', {
-    event = 'BufRead',
+  M.add_plugin("rcarriga/nvim-notify", {
+    event = "BufRead",
     config = function()
-      require('notify').setup({
+      require("notify").setup({
         -- Animation style (see below for details)
-        stages = 'fade_in_slide_out',
-        background_colour = '#000000',
+        stages = "fade_in_slide_out",
+        background_colour = "#000000",
       })
     end,
   })
@@ -39,15 +39,15 @@ local function setup()
 
   -- show keybindings in popup.
   -- https://github.com/folke/which-key.nvim
-  M.add_plugin('folke/which-key.nvim', {
-    event = 'VeryLazy',
+  M.add_plugin("folke/which-key.nvim", {
+    event = "VeryLazy",
     opts = {
       -- your configuration comes here
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
     },
     config = function()
-      local wh = require('which-key')
+      local wh = require("which-key")
       wh.setup({})
       wh.add({
         -- { '<leader>', '<cmd><cr>', desc = '', mode = 'n' },
@@ -58,20 +58,20 @@ local function setup()
 
   -- Bootstrap lazy.nvim
   -- lazy.nvim docs: https://lazy.folke.io/installation
-  local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+  local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
   if not (vim.uv or vim.loop).fs_stat(lazypath) then
     vim.fn.system({
-      'git',
-      'clone',
-      '--filter=blob:none',
-      'https://github.com/folke/lazy.nvim.git',
-      '--branch=stable', -- latest stable release
+      "git",
+      "clone",
+      "--filter=blob:none",
+      "https://github.com/folke/lazy.nvim.git",
+      "--branch=stable", -- latest stable release
       lazypath,
     })
   end
   vim.opt.rtp:prepend(lazypath)
 
-  require('lazy').setup(plugins, {
+  require("lazy").setup(plugins, {
     -- checker = {
     --   enabled = true,
     --   notify = false,
@@ -80,8 +80,8 @@ local function setup()
 end
 
 function M.run()
-  require('core.options')
-  require('core.keymaps')
+  require("core.options")
+  require("core.keymaps")
 
   setup()
 end

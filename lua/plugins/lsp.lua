@@ -1,35 +1,51 @@
 -------------------- lsp configuration --------------------
 
-vim.lsp.enable({
-  "azure_pipelines_ls",
-  "bashls",
-  "gopls",
-  "helm_ls",
-  "jsonls",
-  "lua_ls",
-  "pylsp",
-  "ruff",
-  "yamlls",
-})
-
 -- add lsp plugins
 
 local loong = require("core.loong")
+local lsp_manager = require("core.lsp_manager")
+
+vim.lsp.enable(lsp_manager.enabled_lsps)
 
 -- lsp installer
 -- https://github.com/mason-org/mason.nvim
 loong.add_plugin("mason-org/mason.nvim", {
-  opts = {},
-  config = function()
-    require("mason").setup({
-      ui = {
-        icons = {
-          package_installed = "✓",
-          package_pending = "➜",
-          package_uninstalled = "✗",
-        },
+  opts = {
+    ensure_installed = {},
+    ui = {
+      icons = {
+        package_installed = "✓",
+        package_pending = "➜",
+        package_uninstalled = "✗",
       },
-    })
+    },
+  },
+  config = function(_, opts)
+    require("mason").setup(opts)
+    local mr = require("mason-registry")
+    -- ref https://github.com/adibhanna/nvim/blob/main/lua/plugins/mason.lua
+    local function install_pkg()
+      for _, pkg in ipairs(opts.ensure_installed) do
+        if mr.has_package(pkg) then
+          local p = mr.get_package(pkg)
+          if not p:is_installed() then
+            vim.notify("Mason: Installing " .. pkg .. "...", vim.log.levels.INFO)
+            p:install():once("closed", function()
+              if p:is_installed() then
+                vim.notify("Mason: Successfully installed " .. pkg, vim.log.levels.INFO)
+              else
+                vim.notify("Mason: Failed to install " .. pkg, vim.log.levels.ERROR)
+              end
+            end)
+          end
+        end
+      end
+    end
+    if mr.refresh then
+      mr.refresh(install_pkg)
+    else
+      install_pkg()
+    end
   end,
 })
 
