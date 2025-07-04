@@ -26,11 +26,15 @@
 ---
 --- Refer to the [documentation](https://docs.astral.sh/ruff/editors/) for more details.
 return {
-  cmd = { 'ruff', 'server' },
-  filetypes = { 'python' },
-  root_markers = { 'pyproject.toml', 'ruff.toml', '.ruff.toml', '.git' },
+  -- custom start --
+  lsp_server = "ruff",
+  formatter = { "isort", "black" },
+  -- custom end --
+  cmd = { "ruff", "server" },
+  filetypes = { "python" },
+  root_markers = { "pyproject.toml", "ruff.toml", ".ruff.toml", ".git" },
   settings = {
-    formatter = 'black',
+    formatter = "black",
     setup = {
       init_options = {
         settings = { linelength = 120 },

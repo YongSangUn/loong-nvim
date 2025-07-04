@@ -26,15 +26,18 @@
 ---
 --- Note: This is a community fork of `pyls`.
 return {
-  cmd = { 'pylsp' },
-  filetypes = { 'python' },
+  -- custom start --
+  lsp_server = "python-lsp-server",
+  -- custom end --
+  cmd = { "pylsp" },
+  filetypes = { "python" },
   root_markers = {
-    'pyproject.toml',
-    'setup.py',
-    'setup.cfg',
-    'requirements.txt',
-    'Pipfile',
-    '.git',
+    "pyproject.toml",
+    "setup.py",
+    "setup.cfg",
+    "requirements.txt",
+    "Pipfile",
+    ".git",
   },
   settings = {
     pylsp = {
@@ -44,5 +47,4 @@ return {
       },
     },
   },
-
 }

@@ -1,17 +1,11 @@
--------------------- lsp configuration --------------------
-
--- add lsp plugins
-
 local loong = require("core.loong")
-local lsp_manager = require("core.lsp_manager")
 
-vim.lsp.enable(lsp_manager.enabled_lsps)
+vim.lsp.enable(loong.lsp_enabled)
 
 -- lsp installer
 -- https://github.com/mason-org/mason.nvim
 loong.add_plugin("mason-org/mason.nvim", {
   opts = {
-    ensure_installed = {},
     ui = {
       icons = {
         package_installed = "✓",
@@ -25,11 +19,12 @@ loong.add_plugin("mason-org/mason.nvim", {
     local mr = require("mason-registry")
     -- ref https://github.com/adibhanna/nvim/blob/main/lua/plugins/mason.lua
     local function install_pkg()
-      for _, pkg in ipairs(opts.ensure_installed) do
+      vim.notify("Mason: Installing packages...", vim.inspect(loong.ensure_installed))
+      for _, pkg in ipairs(loong.ensure_installed) do
         if mr.has_package(pkg) then
           local p = mr.get_package(pkg)
           if not p:is_installed() then
-            vim.notify("Mason: Installing " .. pkg .. "...", vim.log.levels.INFO)
+            -- vim.notify("Mason: Installing " .. pkg .. "...", vim.log.levels.INFO)
             p:install():once("closed", function()
               if p:is_installed() then
                 vim.notify("Mason: Successfully installed " .. pkg, vim.log.levels.INFO)
@@ -73,7 +68,7 @@ loong.add_plugin("stevearc/conform.nvim", {
         go = { "goimports", "gofmt" },
         sh = { "shfmt" },
         python = { "isort", "black" },
-        ["*"] = { "codespell" },
+        -- ["*"] = { "codespell" },
         ["_"] = { "trim_whitespace" },
       },
       -- format_on_save = {

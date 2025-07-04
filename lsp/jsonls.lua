@@ -21,10 +21,14 @@
 --- })
 --- ```
 return {
-  cmd = { 'vscode-json-language-server', '--stdio' },
-  filetypes = { 'json', 'jsonc' },
+  -- custom start --
+  lsp_server = "json-lsp",
+  formatter = { "prettier" },
+  -- custom end --
+  cmd = { "vscode-json-language-server", "--stdio" },
+  filetypes = { "json", "jsonc" },
   init_options = {
     provideFormatter = true,
   },
-  root_markers = { '.git' },
+  root_markers = { ".git" },
 }

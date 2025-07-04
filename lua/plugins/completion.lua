@@ -9,6 +9,7 @@ loong.add_plugin(
   -- https://cmp.saghen.dev/installation
   'saghen/blink.cmp',
   {
+
     -- optional: provides snippets for the snippet source
     dependencies = {
       'rafamadriz/friendly-snippets',

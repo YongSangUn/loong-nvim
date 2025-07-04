@@ -68,31 +68,35 @@
 --- * [Lua.workspace.library](https://luals.github.io/wiki/settings/#workspacelibrary)
 ---
 return {
-  cmd = { 'lua-language-server' },
-  filetypes = { 'lua' },
+  -- custom start --
+  lsp_server = "lua-language-server",
+  formatter = { "stylua" },
+  -- custom end --
+  cmd = { "lua-language-server" },
+  filetypes = { "lua" },
   root_markers = {
-    '.luarc.json',
-    '.luarc.jsonc',
-    '.luacheckrc',
-    '.stylua.toml',
-    'stylua.toml',
-    'selene.toml',
-    'selene.yml',
-    '.git',
+    ".luarc.json",
+    ".luarc.jsonc",
+    ".luacheckrc",
+    ".stylua.toml",
+    "stylua.toml",
+    "selene.toml",
+    "selene.yml",
+    ".git",
   },
   settings = {
     Lua = {
       runtime = {
-        version = 'LuaJIT',
+        version = "LuaJIT",
         path = (function()
-          local runtime_path = vim.split(package.path, ';')
-          table.insert(runtime_path, 'lua/?.lua')
-          table.insert(runtime_path, 'lua/?/init.lua')
+          local runtime_path = vim.split(package.path, ";")
+          table.insert(runtime_path, "lua/?.lua")
+          table.insert(runtime_path, "lua/?/init.lua")
           return runtime_path
         end)(),
       },
       diagnostics = {
-        globals = { 'vim' },
+        globals = { "vim" },
       },
       -- hint = {
       --   enable = true,
@@ -100,7 +104,7 @@ return {
       workspace = {
         library = {
           vim.env.VIMRUNTIME,
-          '${3rd}/luv/library',
+          "${3rd}/luv/library",
         },
         checkThirdParty = false,
       },

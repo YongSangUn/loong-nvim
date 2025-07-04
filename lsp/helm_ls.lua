@@ -10,9 +10,13 @@
 ---
 --- If need Helm file highlight use [vim-helm](https://github.com/towolf/vim-helm) plugin.
 return {
-  cmd = { 'helm_ls', 'serve' },
-  filetypes = { 'helm', 'yaml.helm-values' },
-  root_markers = { 'Chart.yaml' },
+  -- custom start --
+  lsp_server = "helm-ls",
+  formatter = {},
+  -- custom end --
+  cmd = { "helm_ls", "serve" },
+  filetypes = { "helm", "yaml.helm-values" },
+  root_markers = { "Chart.yaml" },
   capabilities = {
     workspace = {
       didChangeWatchedFiles = {
