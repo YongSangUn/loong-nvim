@@ -149,6 +149,7 @@ end
 function M.run()
   require("core.options")
   require("core.keymaps")
+  require("core.filetype")
 
   load_configs()
   setup()
