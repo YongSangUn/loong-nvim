@@ -68,6 +68,7 @@ loong.add_plugin("stevearc/conform.nvim", {
         go = { "goimports", "gofmt" },
         sh = { "shfmt" },
         python = { "isort", "black" },
+        -- sql = { "sqlfluff" },
         -- ["*"] = { "codespell" },
         ["_"] = { "trim_whitespace" },
       },

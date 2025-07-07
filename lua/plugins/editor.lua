@@ -102,6 +102,7 @@ loong.add_plugin("nvim-treesitter/nvim-treesitter", {
       "toml",
       "vim",
       "vimdoc",
+      "sql",
     }
     local nvim_treesitter = require("nvim-treesitter")
     nvim_treesitter.setup()
