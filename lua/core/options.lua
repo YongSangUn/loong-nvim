@@ -2,29 +2,29 @@ local g = vim.g
 local opt = vim.opt
 
 -- Make sure to setup `mapleader` and `maplocalleader` before lazy loading
-g.mapleader = ' '
+g.mapleader = " "
 
 -- Hint: use `:h <option>` to figure out the meaning if needed
 -- https://neovim.io/doc/user/provider.html#g%3Aclipboard
 g.clipboard = {
-  name = 'OSC 52',
+  name = "OSC 52",
   copy = {
-    ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
-    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
   },
   paste = {
-    ['+'] = function()
-      return { vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('') }
+    ["+"] = function()
+      return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
     end, -- Return the content of the default register inside the current Neovim
-    ['*'] = function()
-      return { vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('') }
+    ["*"] = function()
+      return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
     end,
   },
 }
-opt.clipboard:append('unnamedplus')
+opt.clipboard:append("unnamedplus")
 
 -- opt.completeopt = { 'menu', 'menuone', 'noselect' }
-opt.mouse = 'a' -- allow the mouse to be used in Nvim
+opt.mouse = "a" -- allow the mouse to be used in Nvim
 
 -- Tab
 local indent = 4
@@ -36,9 +36,12 @@ opt.autoindent = true -- copt indent when starting new line; delete the indent i
 
 -- show tab char and space
 opt.list = true
-opt.listchars = 'tab:→·,trail:·,nbsp:·'
+opt.listchars = "tab:→·,trail:·,nbsp:·"
 
 -- UI config
+-- a single global statusline for the current window，
+-- pr: https://github.com/neovim/neovim/pull/17266
+opt.laststatus = 3
 opt.number = true -- show absolute number
 opt.relativenumber = true -- add numbers to each line on the left side
 opt.cursorline = true -- highlight cursor line underneath the cursor horizontally

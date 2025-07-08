@@ -2,6 +2,12 @@ local loong = require("core.loong")
 
 vim.lsp.enable(loong.lsp_enabled)
 
+vim.diagnostic.config({
+  update_in_insert = true,
+  severity_sort = true, -- necessary for lspsaga's show_line_diagnostics to work
+  virtual_text = true,
+})
+
 -- lsp installer
 -- https://github.com/mason-org/mason.nvim
 loong.add_plugin("mason-org/mason.nvim", {
