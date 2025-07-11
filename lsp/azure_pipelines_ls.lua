@@ -35,7 +35,18 @@ return {
   formatter = {},
   -- custom end --
   cmd = { "azure-pipelines-language-server", "--stdio" },
-  filetypes = { "yaml" },
-  root_markers = { "azure-pipelines.yml" },
-  settings = {},
+  filetypes = { "azure-pipelines" },
+  root_markers = { "." },
+  settings = {
+    yaml = {
+      schemas = {
+        ["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
+          "/azure-pipeline*.y*l",
+          "/*.azure*",
+          "Azure-Pipelines/**/*.y*l",
+          "Pipelines/*.y*l",
+        },
+      },
+    },
+  },
 }

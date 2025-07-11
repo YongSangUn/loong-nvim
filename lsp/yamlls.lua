@@ -67,7 +67,10 @@ return {
   filetypes = { "yaml", "yaml.docker-compose", "yaml.gitlab", "yaml.helm-values" },
   root_markers = { ".git" },
   settings = {
-    -- https://github.com/redhat-developer/vscode-redhat-telemetry#how-to-disable-telemetry-reporting
-    redhat = { telemetry = { enabled = false } },
+    yaml = {
+      schemas = {
+        ["https://raw.githubusercontent.com/yannh/kubernetes-yaml-schema/master/helm.json"] = "/*.helm.yaml",
+      },
+    },
   },
 }

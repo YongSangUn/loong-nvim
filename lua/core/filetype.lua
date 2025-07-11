@@ -22,3 +22,10 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.softtabstop = 2
   end,
 })
+
+--- add filetype azure-pipelines
+vim.filetype.add({
+  pattern = {
+    ["azure%-?pipelines?%.ya?ml"] = "azure-pipelines",
+  },
+})
