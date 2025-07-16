@@ -96,12 +96,10 @@ loong.add_plugin(
 -- auto_suggestions
 -- https://github.com/supermaven-inc/supermaven-nvim
 loong.add_plugin("supermaven-inc/supermaven-nvim", {
-  enabled = false,
-  config = function()
-    require("supermaven-nvim").setup({
-      ignore_filetypes = { "Avante", "TelescopePrompt" },
-    })
-  end,
+  -- enabled = false,
+  opts = {
+    ignore_filetypes = { "Avante", "TelescopePrompt" },
+  },
 })
 
 -- avante

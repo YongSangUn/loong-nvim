@@ -54,39 +54,36 @@ loong.add_plugin("mason-org/mason.nvim", {
 -- https://github.com/stevearc/conform.nvim
 loong.add_plugin("stevearc/conform.nvim", {
   event = { "BufReadPre", "BufNewFile" },
-  config = function()
-    require("which-key").add({
-      {
-        "<leader>fp",
-        function()
-          require("conform").format({ lsp_fallback = true, async = false, timeout_ms = 1000 })
-        end,
-        desc = "Format File",
-        mode = "n",
-      },
-    })
-    require("conform").setup({
-      default_format_opts = {
-        lsp_format = "fallback",
-      },
-      formatters_by_ft = {
-        lua = { "stylua" },
-        go = { "goimports", "gofmt" },
-        sh = { "shfmt" },
-        python = { "isort", "black" },
-        -- sql = { "sqlfluff" },
-        -- ["*"] = { "codespell" },
-        ["_"] = { "trim_whitespace" },
-      },
-      -- format_on_save = {
-      --   lsp_fallback = true,
-      --   async = false,
-      --   timeout_ms = 500,
-      -- },
-      formatters = {
-        injected = { options = { ignore_errors = true } },
-      },
-      keys = {},
-    })
-  end,
+  keys = {
+    {
+      "<leader>fp",
+      function()
+        require("conform").format({ lsp_fallback = true, async = false, timeout_ms = 1000 })
+      end,
+      desc = "Format File",
+      mode = "n",
+    },
+  },
+  opts = {
+    default_format_opts = {
+      lsp_format = "fallback",
+    },
+    formatters_by_ft = {
+      lua = { "stylua" },
+      go = { "goimports", "gofmt" },
+      sh = { "shfmt" },
+      python = { "isort", "black" },
+      -- sql = { "sqlfluff" },
+      -- ["*"] = { "codespell" },
+      ["_"] = { "trim_whitespace" },
+    },
+    -- format_on_save = {
+    --   lsp_fallback = true,
+    --   async = false,
+    --   timeout_ms = 500,
+    -- },
+    formatters = {
+      injected = { options = { ignore_errors = true } },
+    },
+  },
 })

@@ -2,30 +2,26 @@
 -- Covers text manipulation, movement, commenting, and structural editing.
 local loong = require("core.loong")
 
-loong.add_plugin(
-  -- file explor
-  -- https://github.com/nvim-tree/nvim-tree.lua
-  "nvim-tree/nvim-tree.lua",
-  {
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
+-- file explor
+-- https://github.com/nvim-tree/nvim-tree.lua
+loong.add_plugin("nvim-tree/nvim-tree.lua", {
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
+  },
+  keys = {
+    { "<leader>ft", "<cmd>NvimTreeToggle<cr>", desc = "Open NvimTree", mode = "n" },
+  },
+  opts = {
+    --- project.nvim dependencies start ---
+    sync_root_with_cwd = true,
+    respect_buf_cwd = true,
+    update_focused_file = {
+      enable = true,
+      update_root = true,
     },
-    config = function()
-      require("nvim-tree").setup({
-        ---### ahmedkhalf/project.nvim dependencies ---
-        sync_root_with_cwd = true,
-        respect_buf_cwd = true,
-        update_focused_file = {
-          enable = true,
-          update_root = true,
-        },
-      })
-      require("which-key").add({
-        { "<leader>ft", "<cmd>NvimTreeToggle<cr>", desc = "Open NvimTree", mode = "n" },
-      })
-    end,
-  }
-)
+    --- project.nvim dependencies end ---
+  },
+})
 
 -- search
 -- https://github.com/nvim-telescope/telescope.nvim
@@ -39,12 +35,12 @@ loong.add_plugin("nvim-telescope/telescope.nvim", {
       },
     },
   },
+  keys = {
+    { "<leader>pp", "<cmd>Telescope projects<cr>", desc = "List Projects", mode = "n" },
+    { "<leader>pf", "<cmd>Telescope find_files<cr>", desc = "List Project files", mode = "n" },
+    { "<leader>/", "<cmd>Telescope live_grep<cr>", desc = "Search text in current project", mode = "n" },
+  },
   config = function()
-    require("which-key").add({
-      { "<leader>pp", "<cmd>Telescope projects<cr>", desc = "List Projects", mode = "n" },
-      { "<leader>pf", "<cmd>Telescope find_files<cr>", desc = "List Project files", mode = "n" },
-      { "<leader>/", "<cmd>Telescope live_grep<cr>", desc = "Search text in current project", mode = "n" },
-    })
     require("telescope").setup({})
     require("telescope").load_extension("project")
   end,
@@ -53,12 +49,13 @@ loong.add_plugin("nvim-telescope/telescope.nvim", {
 -- project
 -- https://github.com/ahmedkhalf/project.nvim
 loong.add_plugin("ahmedkhalf/project.nvim", {
-  config = function()
-    require("project_nvim").setup({
-      exclude_dirs = { "*//*" },
-      detection_methods = { "pattern" },
-      patterns = { ".git" },
-    })
+  opts = {
+    exclude_dirs = { "*//*" },
+    detection_methods = { "pattern" },
+    patterns = { ".git" },
+  },
+  config = function(_, opts)
+    require("project_nvim").setup(opts)
   end,
 })
 
@@ -141,6 +138,9 @@ loong.add_plugin("nvim-treesitter/nvim-treesitter", {
 loong.add_plugin("akinsho/toggleterm.nvim", {
   branch = "main",
   event = "BufRead",
+  keys = {
+    { "<leader>'", '<cmd>exe v:count1 . "ToggleTerm"<CR>', desc = "Open shell", mode = "n" },
+  },
   config = function()
     require("toggleterm").setup({
       -- size can be a number or function which is passed the current terminal
@@ -152,10 +152,6 @@ loong.add_plugin("akinsho/toggleterm.nvim", {
         end
       end,
     })
-
-    require("which-key").add({
-      { "<leader>'", '<cmd>exe v:count1 . "ToggleTerm"<CR>', desc = "Open shell", mode = "n" },
-    })
   end,
 })
 
@@ -164,47 +160,13 @@ loong.add_plugin("akinsho/toggleterm.nvim", {
 loong.add_plugin("folke/flash.nvim", {
   event = "VeryLazy",
   opts = {},
+  -- stylua: ignore
   keys = {
-    {
-      "s",
-      mode = { "n", "x", "o" },
-      function()
-        require("flash").jump()
-      end,
-      desc = "Flash",
-    },
-    {
-      "S",
-      mode = { "n", "x", "o" },
-      function()
-        require("flash").treesitter()
-      end,
-      desc = "Flash Treesitter",
-    },
-    {
-      "r",
-      mode = "o",
-      function()
-        require("flash").remote()
-      end,
-      desc = "Remote Flash",
-    },
-    {
-      "R",
-      mode = { "o", "x" },
-      function()
-        require("flash").treesitter_search()
-      end,
-      desc = "Treesitter Search",
-    },
-    {
-      "<c-s>",
-      mode = { "c" },
-      function()
-        require("flash").toggle()
-      end,
-      desc = "Toggle Flash Search",
-    },
+    { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+    { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+    { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+    { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+    { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
   },
 })
 
@@ -215,12 +177,10 @@ loong.add_plugin("MeanderingProgrammer/render-markdown.nvim", {
   ---@module 'render-markdown'
   ---@type render.md.UserConfig
   ft = { "markdown", "Avante", "vimwiki" },
-  config = function()
-    require("render-markdown").setup({
-      completions = { blink = { enabled = true } },
-      file_types = { "markdown", "vimwiki", "Avante" },
-    })
-  end,
+  opts = {
+    completions = { blink = { enabled = true } },
+    file_types = { "markdown", "vimwiki", "Avante" },
+  },
 })
 
 -- autopairs

@@ -3,16 +3,11 @@
 
 local loong = require("core.loong")
 
-loong.add_plugin(
-  -- scrollo
-  -- https://github.com/karb94/neoscroll.nvim
-  "karb94/neoscroll.nvim",
-  {
-    config = function()
-      require("neoscroll").setup({})
-    end,
-  }
-)
+-- scrollo
+-- https://github.com/karb94/neoscroll.nvim
+loong.add_plugin("karb94/neoscroll.nvim", {
+  opts = {},
+})
 
 -- Indent Blankline
 -- https://github.com/lukas-reineke/indent-blankline.nvim
@@ -21,43 +16,32 @@ loong.add_plugin("lukas-reineke/indent-blankline.nvim", {
   ---@module "ibl"
   ---@type ibl.config
   opts = {},
-  config = function()
-    require("ibl").setup()
-  end,
 })
 
 -- dashboard
 -- https://github.com/nvimdev/dashboard-nvim
 loong.add_plugin("nvimdev/dashboard-nvim", {
   event = "VimEnter",
-  config = function()
-    require("dashboard").setup({
-      -- config
-    })
-  end,
+  opts = {},
   dependencies = { { "nvim-tree/nvim-web-devicons" } },
 })
 
 -- bufferline
 -- https://github.com/akinsho/bufferline.nvim
 loong.add_plugin("akinsho/bufferline.nvim", {
-  enent = "BufRead",
-  config = function()
-    require("bufferline").setup({
-      -- pass
-    })
-    require("which-key").add({
-      {
-        "<leader>bb",
-        "<cmd>lua require('telescope.builtin').buffers { sort_mru = true }<cr>",
-        desc = "List buffers",
-        mode = "n",
-      },
-      { "<leader>bn", ":BufferLineCycleNext<CR>", desc = "Next buffer", mode = "n" },
-      { "<leader>bp", ":BufferLineCyclePrev<CR>", desc = "Previous buffer", mode = "n" },
-      { "<leader>bd", ":bw<CR>", desc = "Delete buffer", mode = "n" },
-    })
-  end,
+  event = "VeryLazy",
+  opts = {},
+  keys = {
+    {
+      "<leader>bb",
+      "<cmd>lua require('telescope.builtin').buffers { sort_mru = true }<cr>",
+      desc = "List buffers",
+      mode = "n",
+    },
+    { "<leader>bn", ":BufferLineCycleNext<CR>", desc = "Next buffer", mode = "n" },
+    { "<leader>bp", ":BufferLineCyclePrev<CR>", desc = "Previous buffer", mode = "n" },
+    { "<leader>bd", ":bw<CR>", desc = "Delete buffer", mode = "n" },
+  },
 })
 
 -- cli
@@ -94,11 +78,7 @@ loong.add_plugin("folke/noice.nvim", {
 -- nvim-web-devicons
 -- https://github.com/nvim-tree/nvim-web-devicons
 loong.add_plugin("nvim-tree/nvim-web-devicons", {
-  config = function()
-    require("nvim-web-devicons").setup({
-      -- your personnal icons can go here (to override)
-    })
-  end,
+  opts = {},
 })
 
 -- lualine
@@ -106,7 +86,4 @@ loong.add_plugin("nvim-tree/nvim-web-devicons", {
 loong.add_plugin("nvim-lualine/lualine.nvim", {
   event = "VeryLazy",
   dependencies = { "nvim-tree/nvim-web-devicons" },
-  config = function()
-    require("lualine").setup({})
-  end,
 })

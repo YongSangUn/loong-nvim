@@ -108,19 +108,7 @@ local function setup()
   -- https://github.com/folke/which-key.nvim
   M.add_plugin("folke/which-key.nvim", {
     event = "VeryLazy",
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    },
-    config = function()
-      local wh = require("which-key")
-      wh.setup({})
-      wh.add({
-        -- { '<leader>', '<cmd><cr>', desc = '', mode = 'n' },
-      })
-    end,
-    keys = {},
+    opts = {},
   })
 
   -- Bootstrap lazy.nvim
