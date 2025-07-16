@@ -22,14 +22,54 @@ loong.add_plugin("lukas-reineke/indent-blankline.nvim", {
 -- https://github.com/nvimdev/dashboard-nvim
 loong.add_plugin("nvimdev/dashboard-nvim", {
   event = "VimEnter",
-  opts = {},
+  opts = {
+    theme = "doom",
+    config = {
+      -- footer = { utils.get_quote() },
+      center = {
+        {
+          icon = "  ",
+          desc = "List Projects",
+          action = "Telescope projects",
+          shortcut = "SPC p p",
+        },
+        {
+          icon = "  ",
+          desc = "Recent Files",
+          action = "Telescope oldfiles",
+          shortcut = "SPC f f",
+        },
+        {
+          icon = "  ",
+          desc = "Find File",
+          action = "Telescope find_files",
+          shortcut = "SPC p f",
+        },
+        {
+          icon = "󰊄  ",
+          desc = "Find Text",
+          action = "Telescope live_grep",
+          shortcut = "SPC /  ",
+        },
+      },
+    },
+    preview = {
+      command = "chafa --passthrough tmux -f symbols -s 80x80 -c full --fg-only --symbols braille --clear",
+      file_path = vim.fn.stdpath("config") .. "/static/dashboard.gif",
+      file_height = 24,
+      file_width = 80,
+    },
+  },
   dependencies = { { "nvim-tree/nvim-web-devicons" } },
 })
 
 -- bufferline
 -- https://github.com/akinsho/bufferline.nvim
 loong.add_plugin("akinsho/bufferline.nvim", {
-  event = "VeryLazy",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+  branch = "main",
+  -- event = "BufRead",
+  lazy = false,
   opts = {},
   keys = {
     {
