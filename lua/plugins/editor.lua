@@ -35,6 +35,7 @@ loong.add_plugin("nvim-telescope/telescope.nvim", {
       },
     },
   },
+  event = "VeryLazy",
   keys = {
     { "<leader>pp", "<cmd>Telescope projects<cr>", desc = "List Projects", mode = "n" },
     { "<leader>pf", "<cmd>Telescope find_files<cr>", desc = "List Project files", mode = "n" },
