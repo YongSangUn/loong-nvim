@@ -113,7 +113,8 @@ loong.add_plugin("yetone/avante.nvim", {
   ---@type avante.Config
   opts = {
     selector = { provider = "snacks" },
-    provider = "uni",
+    -- provider = "uni",
+    provider = "gemini",
     cursor_applying_provider = "grop_lm3370bv",
     behaviour = {
       enable_cursor_planning_mode = true, -- https://github.com/yetone/avante.nvim/blob/main/cursor-planning-mode.md

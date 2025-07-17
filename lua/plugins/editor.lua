@@ -20,6 +20,9 @@ loong.add_plugin("nvim-tree/nvim-tree.lua", {
       update_root = true,
     },
     --- project.nvim dependencies end ---
+    filters = {
+      git_ignored = false,
+    },
   },
 })
 
