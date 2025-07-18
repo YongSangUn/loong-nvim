@@ -2,10 +2,55 @@ local loong = require("core.loong")
 
 vim.lsp.enable(loong.lsp_enabled)
 
+-- commands
+vim.api.nvim_create_user_command("LspInfo", ":checkhealth lsp", { desc = "Check Lsp Health" })
+
+-- hover
+vim.o.winborder = "rounded"
+
+-- diagnostics
 vim.diagnostic.config({
-  update_in_insert = true,
-  severity_sort = true, -- necessary for lspsaga's show_line_diagnostics to work
   virtual_text = true,
+  -- virtual_lines = true,
+  update_in_insert = true,
+  severity_sort = true,
+  float = {
+    severity_sort = true,
+  },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.WARN] = "",
+      [vim.diagnostic.severity.INFO] = "",
+      [vim.diagnostic.severity.HINT] = "",
+    },
+  },
+})
+
+-- LspAttach
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("LspAttach", {}),
+  callback = function(ev)
+    -- rename
+    vim.keymap.set("n", "<leader>ln", vim.lsp.buf.rename, { buffer = ev.buf, desc = "Lsp: Rename" })
+
+    -- definitions
+    vim.keymap.set("n", "<leader>ld", function()
+      local params = vim.lsp.util.make_position_params(0, "utf-8")
+      vim.lsp.buf_request(0, "textDocument/definition", params, function(_, result, _, _)
+        if not result or vim.tbl_isempty(result) then
+          vim.notify("No definition found", vim.log.levels.INFO)
+        else
+          require("snacks").picker.lsp_definitions()
+        end
+      end)
+    end, { buffer = ev.buf, desc = "Lsp: Go to Definition" })
+
+    -- references
+    vim.keymap.set("n", "<leader>lr", function()
+      require("snacks").picker.lsp_references()
+    end, { buffer = ev.buf, desc = "Lsp: Find References" })
+  end,
 })
 
 -- lsp installer
@@ -25,7 +70,7 @@ loong.add_plugin("mason-org/mason.nvim", {
     local mr = require("mason-registry")
     -- ref https://github.com/adibhanna/nvim/blob/main/lua/plugins/mason.lua
     local function install_pkg()
-      vim.notify("Mason: Installing packages...", vim.inspect(loong.ensure_installed))
+      -- vim.notify("Mason: Installing packages...", vim.inspect(loong.ensure_installed))
       for _, pkg in ipairs(loong.ensure_installed) do
         if mr.has_package(pkg) then
           local p = mr.get_package(pkg)
