@@ -14,12 +14,12 @@ function M.add_plugin(name, opts)
 end
 
 local function load_plugins()
-  require("plugins.theme")
-  require("plugins.completion")
-  require("plugins.editor")
-  require("plugins.git")
-  require("plugins.lsp")
-  require("plugins.ui")
+  require("layers.theme")
+  require("layers.completion")
+  require("layers.editor")
+  require("layers.git")
+  require("layers.lsp")
+  require("layers.ui")
 end
 ---------- plugins setup end ----------
 

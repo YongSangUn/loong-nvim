@@ -6,7 +6,7 @@ vim.lsp.enable(loong.lsp_enabled)
 vim.api.nvim_create_user_command("LspInfo", ":checkhealth lsp", { desc = "Check Lsp Health" })
 
 -- hover
-vim.o.winborder = "rounded"
+-- vim.o.winborder = "rounded"
 
 -- diagnostics
 vim.diagnostic.config({
