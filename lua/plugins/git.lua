@@ -12,6 +12,23 @@ loong.add_plugin("NeogitOrg/neogit", {
   },
 })
 
+-- diffview
+-- https://github.com/sindrets/diffview.nvim
+loong.add_plugin("sindrets/diffview.nvim", {
+  opts = {},
+  keys = {
+    { "<leader>gf", ":DiffviewFileHistory %<cr>", mode = "n", desc = "Show current file history" },
+  },
+})
+
+-- quit diffview
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "DiffviewFileHistory" },
+  callback = function()
+    vim.keymap.set("n", "qq", ":tabclose<cr>", { buffer = true, silent = true })
+  end,
+})
+
 -- blame
 -- https://github.com/lewis6991/gitsigns.nvim
 loong.add_plugin("lewis6991/gitsigns.nvim", {
