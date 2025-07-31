@@ -44,7 +44,9 @@ loong.add_plugin("lewis6991/gitsigns.nvim", {
 -- https://github.com/FabijanZulj/blame.nvim
 loong.add_plugin("FabijanZulj/blame.nvim", {
   lazy = false,
-  opts = {}, -- must use opts to setup() or config instead.
+  opts = {
+    date_format = "%Y-%m-%d",
+  }, -- must use opts to setup() or config instead.
   keys = {
     { "<leader>gb", ":BlameToggle window<cr>", mode = "n", desc = "Toggle blame window" },
   },
