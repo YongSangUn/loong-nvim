@@ -78,9 +78,9 @@ loong.add_plugin("akinsho/bufferline.nvim", {
       desc = "List buffers",
       mode = "n",
     },
-    { "<leader>bn", ":BufferLineCycleNext<CR>", desc = "Next buffer", mode = "n" },
-    { "<leader>bp", ":BufferLineCyclePrev<CR>", desc = "Previous buffer", mode = "n" },
-    { "<leader>bd", ":bw<CR>", desc = "Delete buffer", mode = "n" },
+    { "<leader>bn", "<cmd>BufferLineCycleNext<CR>", desc = "Next buffer", mode = "n" },
+    { "<leader>bp", "<cmd>BufferLineCyclePrev<CR>", desc = "Previous buffer", mode = "n" },
+    { "<leader>bd", "<cmd>bw<CR>", desc = "Delete buffer", mode = "n" },
   },
 })
 

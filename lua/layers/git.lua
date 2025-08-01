@@ -8,7 +8,7 @@ local loong = require("core.loong")
 loong.add_plugin("NeogitOrg/neogit", {
   dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
   keys = {
-    { "<leader>gs", ":Neogit<cr>", mode = "n", desc = "Toggle blame window" },
+    { "<leader>gs", "<cmd>Neogit<cr>", mode = "n", desc = "Toggle blame window" },
   },
 })
 
@@ -17,7 +17,7 @@ loong.add_plugin("NeogitOrg/neogit", {
 loong.add_plugin("sindrets/diffview.nvim", {
   opts = {},
   keys = {
-    { "<leader>gf", ":DiffviewFileHistory %<cr>", mode = "n", desc = "Show current file history" },
+    { "<leader>gf", "<cmd>DiffviewFileHistory %<cr>", mode = "n", desc = "Show current file history" },
   },
 })
 
@@ -48,6 +48,6 @@ loong.add_plugin("FabijanZulj/blame.nvim", {
     date_format = "%Y-%m-%d",
   }, -- must use opts to setup() or config instead.
   keys = {
-    { "<leader>gb", ":BlameToggle window<cr>", mode = "n", desc = "Toggle blame window" },
+    { "<leader>gb", "<cmd>BlameToggle window<cr>", mode = "n", desc = "Toggle blame window" },
   },
 })
