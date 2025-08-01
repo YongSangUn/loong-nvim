@@ -85,24 +85,15 @@ loong.add_plugin("nvim-treesitter/nvim-treesitter", {
   build = ":TSUpdate",
   branch = "main",
   config = function()
+    -- stylua: ignore
     local ensure_installed = {
+      "lua", "vim", "vimdoc",
       "bash",
-      "c",
-      "c_sharp",
-      "cpp",
-      "css",
-      "go",
-      "html",
-      "javascript",
-      "json",
-      "lua",
-      "markdown",
-      "markdown_inline",
-      "python",
-      "rust",
-      "toml",
-      "vim",
-      "vimdoc",
+      "go", "python", "rust",
+      "c", "cpp", "c_sharp",
+      "css", "html", "javascript",
+      "markdown", "markdown_inline",
+      "json", "toml", "yaml",
       "sql",
     }
     local nvim_treesitter = require("nvim-treesitter")

@@ -30,3 +30,4 @@ vim.filetype.add({
     ["azure%-?pipelines?%.ya?ml"] = "azure-pipelines",
   },
 })
+vim.treesitter.language.register("yaml", { "azure-pipelines" })
