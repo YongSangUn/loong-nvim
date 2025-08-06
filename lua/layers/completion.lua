@@ -71,10 +71,10 @@ loong.add_plugin("supermaven-inc/supermaven-nvim", {
       accept_word = "<C-j>",
     },
     ignore_filetypes = { "Avante", "TelescopePrompt" },
-    color = {
-      suggestion_color = "#ffffff",
-      cterm = 244,
-    },
+    -- color = {
+    --   suggestion_color = "#ffffff",
+    --   cterm = 244,
+    -- },
   },
 })
 
@@ -85,18 +85,41 @@ loong.add_plugin("yetone/avante.nvim", {
   version = false, -- Never set this value to "*"! Never!
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
   build = "make",
+  keys = {
+    {
+      "<leader>a+",
+      function()
+        local tree_ext = require("avante.extensions.nvim_tree")
+        tree_ext.add_file()
+      end,
+      desc = "Select file in NvimTree",
+      ft = "NvimTree",
+    },
+    {
+      "<leader>a-",
+      function()
+        local tree_ext = require("avante.extensions.nvim_tree")
+        tree_ext.remove_file()
+      end,
+      desc = "Deselect file in NvimTree",
+      ft = "NvimTree",
+    },
+  },
   ---@module 'avante'
   ---@type avante.Config
   opts = {
-    selector = { provider = "snacks" },
+    selector = {
+      exclude_auto_select = { "NvimTree" },
+      provider = "snacks",
+    },
     -- provider = "uni",
     provider = "gemini",
     cursor_applying_provider = "grop_lm3370bv",
     behaviour = {
-      enable_cursor_planning_mode = true, -- https://github.com/yetone/avante.nvim/blob/main/cursor-planning-mode.md
       auto_suggestions = false,
       enable_token_counting = true,
       use_cwd_as_project_root = true,
+      enable_fastapply = true,
     },
     providers = {
       openai = {
@@ -171,7 +194,7 @@ loong.add_plugin("yetone/avante.nvim", {
       },
     },
     web_search_engine = {
-      provider = "tavily", -- tavily, serpapi, searchapi, google, kagi, brave, or searxng
+      provider = "serpapi", -- tavily, serpapi, searchapi, google, kagi, brave, or searxng
       proxy = nil, -- proxy support, e.g., http://127.0.0.1:7890
     },
     windows = {
@@ -219,4 +242,20 @@ loong.add_plugin("yetone/avante.nvim", {
       ft = { "markdown", "Avante" },
     },
   },
+})
+
+-- mcp
+--
+loong.add_plugin("ravitemer/mcphub.nvim", {
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+  },
+  build = "npm install -g mcp-hub@latest", -- Installs `mcp-hub` node binary globally
+  config = function()
+    require("mcphub").setup({
+      extensions = {
+        avante = { make_slash_commands = true },
+      },
+    })
+  end,
 })
