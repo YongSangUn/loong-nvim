@@ -112,8 +112,7 @@ loong.add_plugin("yetone/avante.nvim", {
       exclude_auto_select = { "NvimTree" },
       provider = "snacks",
     },
-    -- provider = "uni",
-    provider = "gmn_25_flash",
+    provider = "uni_k2",
     behaviour = {
       auto_suggestions = false,
       enable_token_counting = true,
@@ -131,11 +130,11 @@ loong.add_plugin("yetone/avante.nvim", {
           --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
         },
       },
-      gmn_25_pro = {
+      g25_pro = {
         __inherited_from = "gemini",
         model = "gemini-2.5-pro",
       },
-      gmn_25_flash = {
+      g25_flash = {
         __inherited_from = "gemini",
         model = "gemini-2.5-flash",
       },
@@ -153,17 +152,48 @@ loong.add_plugin("yetone/avante.nvim", {
         model = "deepseek-chat",
         disable_tools = true,
       },
-      uni = {
+      uni_opus4 = {
         __inherited_from = "openai",
         api_key_name = "UNI_API_KEY",
-        endpoint = "https://api.uniapi.io",
-        model = "claude-sonnet-4-20250514",
-        -- model = 'claude-3-5-sonnet-latest',
-        -- model = 'deepseek-reasoner',
-        -- model = 'claude-3-7-sonnet-20250219',
-        -- model = 'claude-3-5-sonnet-20250219',
-        -- disable_tools = true,
+        endpoint = "https://hk.uniapi.io/v1/",
+        model = "claude-opus-4-20250514",
       },
+      uni_opus41 = {
+        __inherited_from = "openai",
+        api_key_name = "UNI_API_KEY",
+        endpoint = "https://hk.uniapi.io/v1/",
+        model = "claude-opus-4-1-20250805",
+      },
+      uni_sonnet4 = {
+        __inherited_from = "openai",
+        api_key_name = "UNI_API_KEY",
+        endpoint = "https://hk.uniapi.io/v1/",
+        model = "claude-sonnet-4-20250514",
+      },
+      uni_k2 = {
+        __inherited_from = "openai",
+        api_key_name = "UNI_API_KEY",
+        endpoint = "https://hk.uniapi.io/v1/",
+        model = "kimi-k2-0711-preview",
+      },
+      uni_g25_pro = {
+        __inherited_from = "openai",
+        api_key_name = "UNI_API_KEY",
+        endpoint = "https://hk.uniapi.io/v1/",
+        model = "gemini-2.5-pro",
+      },
+      uni_g25_flash = {
+        __inherited_from = "openai",
+        api_key_name = "UNI_API_KEY",
+        endpoint = "https://hk.uniapi.io/v1/",
+        model = "gemini-2.5-flash",
+      },
+      -- uni_ = {
+      --   __inherited_from = "openai",
+      --   api_key_name = "UNI_API_KEY",
+      --   endpoint = "https://hk.uniapi.io/v1/",
+      --   model = "",
+      -- },
       groq_qwq = {
         __inherited_from = "openai",
         api_key_name = "GROQ_API_KEY",
