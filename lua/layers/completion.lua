@@ -113,8 +113,7 @@ loong.add_plugin("yetone/avante.nvim", {
       provider = "snacks",
     },
     -- provider = "uni",
-    provider = "gemini",
-    cursor_applying_provider = "grop_lm3370bv",
+    provider = "gmn_25_flash",
     behaviour = {
       auto_suggestions = false,
       enable_token_counting = true,
@@ -132,12 +131,16 @@ loong.add_plugin("yetone/avante.nvim", {
           --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
         },
       },
-      gemini = {
+      gmn_25_pro = {
+        __inherited_from = "gemini",
         model = "gemini-2.5-pro",
-        -- model = 'gemini-2.5-flash'
+      },
+      gmn_25_flash = {
+        __inherited_from = "gemini",
+        model = "gemini-2.5-flash",
       },
       ds_reasoner = {
-        __inherited_from = "or_dsv3",
+        __inherited_from = "openai",
         api_key_name = "DEEPSEEK_API_KEY",
         endpoint = "https://api.deepseek.com",
         model = "deepseek-reasoner",
@@ -161,15 +164,6 @@ loong.add_plugin("yetone/avante.nvim", {
         -- model = 'claude-3-5-sonnet-20250219',
         -- disable_tools = true,
       },
-      grop_lm3370bv = {
-        __inherited_from = "openai",
-        api_key_name = "GROQ_API_KEY",
-        endpoint = "https://api.groq.com/openai/v1/",
-        model = "llama-3.3-70b-versatile",
-        extra_request_body = {
-          max_completion_tokens = 32768, -- remember to increase this value, otherwise it will stop generating halfway
-        },
-      },
       groq_qwq = {
         __inherited_from = "openai",
         api_key_name = "GROQ_API_KEY",
@@ -191,6 +185,9 @@ loong.add_plugin("yetone/avante.nvim", {
         endpoint = "https://openrouter.ai/api/v1",
         api_key_name = "OPENROUTER_API_KEY",
         model = "deepseek/deepseek-r1:free",
+      },
+      morph = {
+        model = "morph-v3-large",
       },
     },
     web_search_engine = {
