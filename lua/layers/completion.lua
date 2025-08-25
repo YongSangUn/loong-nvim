@@ -249,29 +249,7 @@ loong.add_plugin("yetone/avante.nvim", {
     "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
     "ibhagwan/fzf-lua", -- for file_selector provider fzf
     { "echasnovski/mini.pick", config = true }, -- for file_selector provider mini.pick
-    {
-      "folke/snacks.nvim",
-      priority = 1000,
-      lazy = false,
-      ---@type snacks.Config
-      opts = {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-        bigfile = { enabled = false },
-        dashboard = { enabled = false },
-        explorer = { enabled = false },
-        indent = { enabled = true },
-        input = { enabled = false },
-        picker = { enabled = true },
-        notifier = { enabled = false },
-        quickfile = { enabled = false },
-        scope = { enabled = false },
-        scroll = { enabled = false },
-        statuscolumn = { enabled = false },
-        words = { enabled = false },
-      },
-    },
+    "folke/snacks.nvim",
     {
       -- Make sure to set this up properly if you have lazy=true
       "MeanderingProgrammer/render-markdown.nvim",

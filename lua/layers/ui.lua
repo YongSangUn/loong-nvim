@@ -9,15 +9,6 @@ loong.add_plugin("karb94/neoscroll.nvim", {
   opts = {},
 })
 
--- Indent Blankline
--- https://github.com/lukas-reineke/indent-blankline.nvim
-loong.add_plugin("lukas-reineke/indent-blankline.nvim", {
-  main = "ibl",
-  ---@module "ibl"
-  ---@type ibl.config
-  opts = {},
-})
-
 -- dashboard
 -- https://github.com/nvimdev/dashboard-nvim
 loong.add_plugin("nvimdev/dashboard-nvim", {
@@ -125,6 +116,8 @@ loong.add_plugin("nvim-tree/nvim-web-devicons", {
 -- https://github.com/nvim-lualine/lualine.nvim
 loong.add_plugin("nvim-lualine/lualine.nvim", {
   event = "VeryLazy",
-  opts = {},
+  opts = {
+    options = { theme = "horizon" },
+  },
   dependencies = { "nvim-tree/nvim-web-devicons" },
 })

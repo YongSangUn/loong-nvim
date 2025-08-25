@@ -8,6 +8,7 @@ loong.add_plugin("nvim-tree/nvim-tree.lua", {
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },
+  lazy = false,
   keys = {
     { "<leader>ft", "<cmd>NvimTreeToggle<cr>", desc = "Open NvimTree", mode = "n" },
   },
@@ -188,4 +189,29 @@ loong.add_plugin("windwp/nvim-autopairs", {
       disable_filetype = { "TelescopePrompt", "vim" },
     })
   end,
+})
+
+-- snacks.nvim
+-- https://github.com/folke/snacks.nvim
+loong.add_plugin("folke/snacks.nvim", {
+  priority = 1000,
+  lazy = false,
+  ---@type snacks.Config
+  opts = {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+    bigfile = { enabled = false },
+    dashboard = { enabled = false },
+    explorer = { enabled = false },
+    indent = { enabled = true },
+    input = { enabled = false },
+    picker = { enabled = true },
+    notifier = { enabled = false },
+    quickfile = { enabled = false },
+    scope = { enabled = false },
+    scroll = { enabled = false },
+    statuscolumn = { enabled = false },
+    words = { enabled = false },
+  },
 })
