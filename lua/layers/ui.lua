@@ -125,5 +125,6 @@ loong.add_plugin("nvim-tree/nvim-web-devicons", {
 -- https://github.com/nvim-lualine/lualine.nvim
 loong.add_plugin("nvim-lualine/lualine.nvim", {
   event = "VeryLazy",
+  opts = {},
   dependencies = { "nvim-tree/nvim-web-devicons" },
 })
