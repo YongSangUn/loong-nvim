@@ -80,7 +80,7 @@ loong.add_plugin("towolf/vim-helm", {
 })
 
 --- Treesitter
---- https://github.com/nvim-treesitter/nvim-treesitter
+--- https://github.com/nvim-treesitter/nvim-treesitter/tree/main
 --- ref: https://github.com/Shaobin-Jiang/IceNvim/blob/a11738f57ec371960ed7d13d7ec85a90834a81ca/lua/plugins/config.lua#L567
 loong.add_plugin("nvim-treesitter/nvim-treesitter", {
   build = ":TSUpdate",
@@ -89,7 +89,7 @@ loong.add_plugin("nvim-treesitter/nvim-treesitter", {
     -- stylua: ignore
     local ensure_installed = {
       "lua", "vim", "vimdoc",
-      "bash",
+      "bash", "powershell",
       "go", "python", "rust",
       "c", "cpp", "c_sharp",
       "css", "html", "javascript",
