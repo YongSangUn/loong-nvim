@@ -6,15 +6,12 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
+  -- stylua: ignore
   pattern = {
-    "azure-pipelines",
+    "html", "css", "javascript", "typescript",
+    "yaml", "json", "azure-pipelines", "helm",
+    "markdown",
     "lua",
-    "yaml",
-    "json",
-    "html",
-    "css",
-    "javascript",
-    "typescript",
     "sql",
   },
   callback = function()
