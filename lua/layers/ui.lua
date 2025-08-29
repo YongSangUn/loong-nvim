@@ -59,9 +59,7 @@ loong.add_plugin("nvimdev/dashboard-nvim", {
 loong.add_plugin("akinsho/bufferline.nvim", {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   branch = "main",
-  -- event = "BufRead",
   lazy = false,
-  opts = {},
   keys = {
     {
       "<leader>bb",
@@ -71,7 +69,22 @@ loong.add_plugin("akinsho/bufferline.nvim", {
     },
     { "<leader>bn", "<cmd>BufferLineCycleNext<CR>", desc = "Next buffer", mode = "n" },
     { "<leader>bp", "<cmd>BufferLineCyclePrev<CR>", desc = "Previous buffer", mode = "n" },
+    { "<leader>bs", "<cmd>BufferLinePick<CR>", desc = "Select buffer", mode = "n" },
     { "<leader>bd", "<cmd>bw<CR>", desc = "Delete buffer", mode = "n" },
+  },
+  opts = {
+    options = {
+      offsets = {
+        { filetype = "NvimTree", text = " File Explorer", highlight = "Directory", separator = true },
+      },
+      -- indicator = { style = "icon", icon = " " },
+      indicator = { style = "underline" },
+    },
+    highlights = {
+      buffer_selected = { underline = true, sp = { attribute = "fg", highlight = "Directory" } },
+      indicator_selected = { underline = true, sp = { attribute = "fg", highlight = "Directory" } },
+      close_button_selected = { underline = true, sp = { attribute = "fg", highlight = "Directory" } },
+    },
   },
 })
 
