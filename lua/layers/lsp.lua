@@ -101,7 +101,7 @@ loong.add_plugin("stevearc/conform.nvim", {
   event = { "BufReadPre", "BufNewFile" },
   keys = {
     {
-      "<leader>fp",
+      "<leader>ff",
       function()
         require("conform").format({ lsp_fallback = true, async = false, timeout_ms = 1000 })
       end,

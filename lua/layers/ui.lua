@@ -61,12 +61,6 @@ loong.add_plugin("akinsho/bufferline.nvim", {
   branch = "main",
   lazy = false,
   keys = {
-    {
-      "<leader>bb",
-      "<cmd>lua require('telescope.builtin').buffers { sort_mru = true }<cr>",
-      desc = "List buffers",
-      mode = "n",
-    },
     { "<leader>bn", "<cmd>BufferLineCycleNext<CR>", desc = "Next buffer", mode = "n" },
     { "<leader>bp", "<cmd>BufferLineCyclePrev<CR>", desc = "Previous buffer", mode = "n" },
     { "<leader>bs", "<cmd>BufferLinePick<CR>", desc = "Select buffer", mode = "n" },
