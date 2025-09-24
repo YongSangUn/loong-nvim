@@ -112,7 +112,7 @@ loong.add_plugin("yetone/avante.nvim", {
       exclude_auto_select = { "NvimTree" },
       provider = "snacks",
     },
-    provider = "uni_k2",
+    provider = "kimi",
     behaviour = {
       auto_suggestions = false,
       enable_token_counting = true,
@@ -134,11 +134,11 @@ loong.add_plugin("yetone/avante.nvim", {
         __inherited_from = "openai",
         api_key_name = "MOONSHOT_API_KEY",
         endpoint = "https://api.moonshot.ai/v1",
-        model = "kimi-k2-0711-preview",
-        extra_request_body = {
-          temperature = 0.5,
-          max_tokens = 131072,
-        },
+        model = "kimi-k2-0905-preview",
+        -- extra_request_body = {
+        --   temperature = 0.5,
+        --   max_tokens = 262144,
+        -- },
       },
       g25_pro = {
         __inherited_from = "gemini",
