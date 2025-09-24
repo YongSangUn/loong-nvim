@@ -191,6 +191,14 @@ loong.add_plugin("windwp/nvim-autopairs", {
   end,
 })
 
+-- session
+-- https://github.com/folke/persistence.nvim
+loong.add_plugin("folke/persistence.nvim", {
+  enabled = false,
+  event = "BufReadPre",
+  opts = {},
+})
+
 -- snacks.nvim
 -- https://github.com/folke/snacks.nvim
 loong.add_plugin("folke/snacks.nvim", {
@@ -202,7 +210,35 @@ loong.add_plugin("folke/snacks.nvim", {
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
     bigfile = { enabled = false },
-    dashboard = { enabled = false },
+    dashboard = {
+      preset = {
+        keys = {
+          { icon = " ", key = "p", desc = "List Projects", action = ":lua Snacks.picker.projects()" },
+          { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+          { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+          { icon = " ", key = "/", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+          -- { icon = " ", key = "s", desc = "Restore Session", action = ":lua Snacks.dashboard.pick('session')" },
+          { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
+          { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+        },
+      },
+      sections = {
+        {
+          section = "terminal",
+          cmd = "chafa "
+            .. vim.fn.stdpath("config")
+            .. "/static/dashboard.gif"
+            .. " -f symbols -s 80x80 -c full"
+            .. " --passthrough tmux"
+            .. " --fg-only --symbols braille --clear",
+          height = 24,
+          width = 80,
+          padding = 1,
+        },
+        { section = "keys", gap = 1, padding = 1 },
+        { section = "startup" },
+      },
+    },
     explorer = { enabled = false },
     indent = { enabled = true },
     input = { enabled = false },
