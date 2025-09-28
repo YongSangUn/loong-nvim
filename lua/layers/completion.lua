@@ -268,6 +268,8 @@ loong.add_plugin("ravitemer/mcphub.nvim", {
   build = "npm install -g mcp-hub@latest", -- Installs `mcp-hub` node binary globally
   config = function()
     require("mcphub").setup({
+      port = 3001,
+      shutdown_delay = 0,
       extensions = {
         avante = { make_slash_commands = true },
       },

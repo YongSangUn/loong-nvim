@@ -10,8 +10,9 @@ vim.api.nvim_create_user_command("LspInfo", ":checkhealth lsp", { desc = "Check 
 
 -- diagnostics
 vim.diagnostic.config({
-  virtual_text = true,
+  -- virtual_text = true,
   -- virtual_lines = true,
+  virtual_text = false,
   update_in_insert = true,
   severity_sort = true,
   float = {
@@ -25,6 +26,13 @@ vim.diagnostic.config({
       [vim.diagnostic.severity.HINT] = "",
     },
   },
+})
+
+vim.api.nvim_create_autocmd("CursorHold", {
+  pattern = "*",
+  callback = function()
+    vim.diagnostic.open_float(nil, { focusable = false })
+  end,
 })
 
 -- LspAttach
