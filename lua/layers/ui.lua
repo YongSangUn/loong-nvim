@@ -6,6 +6,7 @@ local loong = require("core.loong")
 -- scrollo
 -- https://github.com/karb94/neoscroll.nvim
 loong.add_plugin("karb94/neoscroll.nvim", {
+  enabled = false,
   opts = {},
 })
 

@@ -13,11 +13,9 @@ loong.add_plugin("nvim-tree/nvim-tree.lua", {
     { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Open NvimTree", mode = "n" },
   },
   opts = {
-    --- project.nvim dependencies start ---
     sync_root_with_cwd = true,
     respect_buf_cwd = true,
     update_focused_file = { enable = true, update_root = true },
-    --- project.nvim dependencies end ---
     filters = {
       git_ignored = false,
     },
@@ -244,7 +242,7 @@ loong.add_plugin("folke/snacks.nvim", {
     notifier = { enabled = false },
     quickfile = { enabled = false },
     scope = { enabled = false },
-    scroll = { enabled = false },
+    scroll = { enabled = true },
     statuscolumn = { enabled = false },
     words = { enabled = false },
   },
