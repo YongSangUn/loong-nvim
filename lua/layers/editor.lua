@@ -16,10 +16,7 @@ loong.add_plugin("nvim-tree/nvim-tree.lua", {
     --- project.nvim dependencies start ---
     sync_root_with_cwd = true,
     respect_buf_cwd = true,
-    update_focused_file = {
-      enable = true,
-      update_root = true,
-    },
+    update_focused_file = { enable = true, update_root = true },
     --- project.nvim dependencies end ---
     filters = {
       git_ignored = false,
@@ -54,6 +51,7 @@ loong.add_plugin("nvim-telescope/telescope.nvim", {
 -- project
 -- https://github.com/ahmedkhalf/project.nvim
 loong.add_plugin("ahmedkhalf/project.nvim", {
+  enabled = false,
   opts = {
     exclude_dirs = { "*//*" },
     detection_methods = { "pattern" },
