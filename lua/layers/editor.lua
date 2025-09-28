@@ -358,3 +358,32 @@ loong.add_plugin("ovk/endec.nvim", {
     },
   },
 })
+
+-- trouble
+-- https://github.com/folke/trouble.nvim
+loong.add_plugin("folke/trouble.nvim", {
+  cmd = "Trouble",
+  opts = {},
+  keys = {
+    {
+      "<leader>lt",
+      "<cmd>Trouble diagnostics toggle force=true<cr>",
+      desc = "Diagnostics (Trouble)",
+    },
+    {
+      "<leader>ls",
+      "<cmd>Trouble symbols toggle pinned=true win={relative=true,position=right}<cr>",
+      desc = "Symbols (Trouble)",
+    },
+    {
+      "<leader>ll",
+      "<cmd>Trouble loclist toggle<cr>",
+      desc = "Location List (Trouble)",
+    },
+    {
+      "<leader>lq",
+      "<cmd>Trouble qflist toggle<cr>",
+      desc = "Quickfix List (Trouble)",
+    },
+  },
+})
