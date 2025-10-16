@@ -9,6 +9,7 @@ vim.api.nvim_create_autocmd("FileType", {
   -- stylua: ignore
   pattern = {
     "html", "css", "javascript", "typescript",
+    "htmldjango",
     "yaml", "json", "azure-pipelines", "helm",
     "markdown",
     "lua",

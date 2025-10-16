@@ -90,7 +90,7 @@ loong.add_plugin("nvim-treesitter/nvim-treesitter", {
       "c", "cpp", "c_sharp",
       "css", "html", "javascript",
       "markdown", "markdown_inline",
-      "json", "toml", "yaml",
+      "json", "toml", "yaml", "helm",
       "sql",
     }
     local nvim_treesitter = require("nvim-treesitter")
