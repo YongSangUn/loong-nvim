@@ -127,14 +127,30 @@ loong.add_plugin("nvim-treesitter/nvim-treesitter", {
 -- terminal
 -- toggleterm.setup()
 -- https://github.com/akinsho/toggleterm.nvim
+function _G.set_terminal_keymaps()
+  -- ref: https://github.com/akinsho/toggleterm.nvim?tab=readme-ov-file#terminal-window-mappings
+  local opts = { buffer = 0 }
+  vim.keymap.set("t", "<esc><esc>", [[<C-\><C-n>]], opts)
+end
+
 loong.add_plugin("akinsho/toggleterm.nvim", {
   branch = "main",
   event = "BufRead",
   keys = {
-    { "<leader>'", '<cmd>exe v:count1 . "ToggleTerm"<CR>', desc = "Open shell", mode = "n" },
+    { "<leader>'", "<cmd>ToggleTerm<cr>", desc = "Open shell", mode = "n" },
+    { "<leader>tt", "<cmd>ToggleTerm<cr>", desc = "Open shell", mode = "n" },
+    { "<leader>th", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Open horizontal shell", mode = "n" },
+    { "<leader>tv", "<cmd>ToggleTerm direction=vertical<cr>", desc = "Open vertical shell", mode = "n" },
+    { "<leader>tn", "<cmd>TermNew<cr>", desc = "Open new shell", mode = "n" },
   },
   config = function()
     require("toggleterm").setup({
+      -- only set keymaps for toggleterm
+      vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()"),
+      on_open = function(term)
+        vim.opt.laststatus = 3
+      end,
+
       -- size can be a number or function which is passed the current terminal
       size = function(term)
         if term.direction == "horizontal" then
