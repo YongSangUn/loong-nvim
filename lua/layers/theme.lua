@@ -1,17 +1,15 @@
-local loong = require('core.loong')
+local loong = require("core.loong")
 
-loong.add_plugin('tanvirtin/monokai.nvim', {
+loong.add_plugin("tanvirtin/monokai.nvim", {
   lazy = false,
   priority = 1000,
   config = function()
-    require('monokai').setup({
-      -- dark_variant = "darker",
-      -- palette = {
-      --   red = '#FF5555',
-      --   green = '#50FA7B',
-      -- },
-      -- https://github.com/tanvirtin/monokai.nvim#configuration
+    -- https://github.com/tanvirtin/monokai.nvim#configuration
+    local monokai = require("monokai")
+    monokai.setup({
+      custom_hlgroups = {
+        ["@comment"] = { fg = "#5C8C4A", italic = true },
+      },
     })
-    vim.cmd.colorscheme('monokai')
   end,
 })
