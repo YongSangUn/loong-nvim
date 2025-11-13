@@ -47,16 +47,11 @@ loong.add_plugin("nvim-telescope/telescope.nvim", {
 })
 
 -- project
--- https://github.com/ahmedkhalf/project.nvim
-loong.add_plugin("ahmedkhalf/project.nvim", {
-  enabled = false,
-  opts = {
-    exclude_dirs = { "*//*" },
-    detection_methods = { "pattern" },
-    patterns = { ".git" },
-  },
+-- https://github.com/DrKJeff16/project.nvim
+loong.add_plugin("DrKJeff16/project.nvim", {
+  opts = {},
   config = function(_, opts)
-    require("project_nvim").setup(opts)
+    require("project").setup()
   end,
 })
 
