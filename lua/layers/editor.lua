@@ -249,7 +249,14 @@ loong.add_plugin("folke/snacks.nvim", {
     explorer = { enabled = false },
     indent = { enabled = true },
     input = { enabled = false },
-    picker = { enabled = true },
+    picker = {
+      sources = {
+        projects = {
+          dev = { "~/git", "~/git/gh", "~/workspace" },
+          recent = true,
+        },
+      },
+    },
     notifier = { enabled = false },
     quickfile = { enabled = false },
     scope = { enabled = false },
