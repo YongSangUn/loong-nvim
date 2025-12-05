@@ -39,7 +39,7 @@ map("n", "<leader>wm", "<C-w>o", { desc = "Maximize window" })
 
 -- Buffer
 map("n", "<leader>fn", ":enew | startinsert<cr>", { desc = "New file" })
-map("n", "<leader><Tab>", ":b#<cr>", { desc = "Last buffer" })
+map("n", "<leader><Tab>", "<cmd>b#<cr>", { desc = "Last buffer" })
 
 -- jump
 map("n", "<leader>jj", '<cmd>lua require("flash").remote()<cr>', { desc = "Jump to a char" })
