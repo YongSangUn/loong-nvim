@@ -112,12 +112,15 @@ loong.add_plugin("yetone/avante.nvim", {
       exclude_auto_select = { "NvimTree" },
       provider = "snacks",
     },
-    provider = "kimi",
+    provider = "moonshot",
     behaviour = {
       auto_suggestions = false,
       enable_token_counting = true,
       use_cwd_as_project_root = true,
-      enable_fastapply = true,
+      enable_fastapply = false,
+      auto_focus_sidebar = true,
+      minimize_diff = true,
+      auto_check_diagnostics = false,
     },
     providers = {
       openai = {
@@ -129,6 +132,10 @@ loong.add_plugin("yetone/avante.nvim", {
           max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
           --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
         },
+      },
+      moonshot = {
+        use_ReAct_prompt = true,
+        model = "kimi-k2-turbo-preview",
       },
       kimi = {
         __inherited_from = "openai",
@@ -227,7 +234,7 @@ loong.add_plugin("yetone/avante.nvim", {
         model = "deepseek/deepseek-r1:free",
       },
       morph = {
-        model = "morph-v3-large",
+        model = "auto",
       },
     },
     web_search_engine = {
