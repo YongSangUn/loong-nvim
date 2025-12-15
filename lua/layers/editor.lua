@@ -219,6 +219,15 @@ loong.add_plugin("folke/snacks.nvim", {
     bigfile = { enabled = false },
     dashboard = {
       preset = {
+        header = [[
+                                                                   
+      ████ ██████           █████      ██                    
+     ███████████             █████                            
+     █████████ ███████████████████ ███   ███████████  
+    █████████  ███    █████████████ █████ ██████████████  
+   █████████ ██████████ █████████ █████ █████ ████ █████  
+ ███████████ ███    ███ █████████ █████ █████ ████ █████ 
+██████  █████████████████████ ████ █████ █████ ████ ██████]],
         keys = {
           { icon = " ", key = "p", desc = "List Projects", action = ":lua Snacks.picker.projects()" },
           { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
@@ -230,18 +239,19 @@ loong.add_plugin("folke/snacks.nvim", {
         },
       },
       sections = {
-        {
-          section = "terminal",
-          cmd = "chafa "
-            .. vim.fn.stdpath("config")
-            .. "/static/dashboard.gif"
-            .. " -f symbols -s 80x80 -c full"
-            .. " --passthrough tmux"
-            .. " --fg-only --symbols braille --clear",
-          height = 24,
-          width = 80,
-          padding = 1,
-        },
+        { section = "header" },
+        -- {
+        --   section = "terminal",
+        --   cmd = "chafa "
+        --     .. vim.fn.stdpath("config")
+        --     .. "/static/dashboard.gif"
+        --     .. " -f symbols -s 80x80 -c full"
+        --     .. " --passthrough tmux"
+        --     .. " --fg-only --symbols braille --clear",
+        --   height = 24,
+        --   width = 80,
+        --   padding = 1,
+        -- },
         { section = "keys", gap = 1, padding = 1 },
         { section = "startup" },
       },
