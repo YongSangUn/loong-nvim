@@ -80,7 +80,10 @@ loong.add_plugin("nvim-tree/nvim-web-devicons", {
 loong.add_plugin("nvim-lualine/lualine.nvim", {
   event = "VeryLazy",
   opts = {
-    options = { theme = "horizon" },
+    options = {
+      theme = "horizon",
+      globalstatus = true,
+    },
   },
   dependencies = { "nvim-tree/nvim-web-devicons" },
 })
