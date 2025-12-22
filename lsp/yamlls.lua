@@ -61,7 +61,7 @@
 return {
   -- custom start --
   lsp_server = "yaml-language-server",
-  formatter = { "prettier" },
+  formatter = { "yamlfmt" },
   -- custom end --
   cmd = { "yaml-language-server", "--stdio" },
   filetypes = { "yaml", "yaml.docker-compose", "yaml.gitlab", "yaml.helm-values" },

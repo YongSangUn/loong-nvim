@@ -133,6 +133,8 @@ loong.add_plugin("stevearc/conform.nvim", {
       javascript = { "prettier", "eslint_d" },
       typescript = { "prettier", "eslint_d" },
       json = { "prettier" },
+      yaml = { "yamlfmt_global" },
+      ["azure-pipelines"] = { "yamlfmt_global" },
       -- sql = { "sqlfluff" },
       -- ["*"] = { "codespell" },
       ["_"] = { "trim_whitespace" },
@@ -144,6 +146,14 @@ loong.add_plugin("stevearc/conform.nvim", {
     -- },
     formatters = {
       injected = { options = { ignore_errors = true } },
+      yamlfmt_global = {
+        command = "yamlfmt",
+        args = {
+          "-formatter",
+          "indentless_arrays=true,retain_line_breaks=true,scan_folded_as_literal=true",
+          "-in",
+        },
+      },
     },
   },
 })
