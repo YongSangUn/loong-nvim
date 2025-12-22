@@ -108,19 +108,31 @@ loong.add_plugin("yetone/avante.nvim", {
   ---@module 'avante'
   ---@type avante.Config
   opts = {
+    --- mcphub start
+    -- system_prompt as function ensures LLM always has latest MCP server state
+    -- This is evaluated for every message, even in existing chats
+    system_prompt = function()
+      local hub = require("mcphub").get_hub_instance()
+      return hub and hub:get_active_servers_prompt() or ""
+    end,
+    -- Using function prevents requiring mcphub before it's loaded
+    custom_tools = function()
+      return {
+        require("mcphub.extensions.avante").mcp_tool(),
+      }
+    end,
+    --- mcphub end
+    mode = "agentic", -- Switch from "agentic" to "legacy"
     selector = {
       exclude_auto_select = { "NvimTree" },
       provider = "snacks",
     },
     provider = "moonshot",
     behaviour = {
-      auto_suggestions = false,
-      enable_token_counting = true,
-      use_cwd_as_project_root = true,
-      enable_fastapply = false,
-      auto_focus_sidebar = true,
-      minimize_diff = true,
-      auto_check_diagnostics = false,
+      -- enable_fastapply = true,
+      -- auto_suggestions = true,
+      auto_approve_tool_permissions = false,
+      -- Example: auto_approve_tool_permissions = {"bash", "str_replace", "grep"}, -- Auto-approve specific tools only
     },
     providers = {
       openai = {
@@ -267,7 +279,7 @@ loong.add_plugin("yetone/avante.nvim", {
 })
 
 -- mcp
---
+-- https://github.com/ravitemer/mcphub.nvim
 loong.add_plugin("ravitemer/mcphub.nvim", {
   dependencies = {
     "nvim-lua/plenary.nvim",
@@ -278,6 +290,7 @@ loong.add_plugin("ravitemer/mcphub.nvim", {
       port = 3001,
       shutdown_delay = 0,
       extensions = {
+        -- ref: https://ravitemer.github.io/mcphub.nvim/extensions/avante.html#configure-avante-integration
         avante = { make_slash_commands = true },
       },
     })
