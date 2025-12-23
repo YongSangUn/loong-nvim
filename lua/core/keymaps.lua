@@ -40,6 +40,11 @@ map("n", "<leader>wm", "<C-w>o", { desc = "Maximize window" })
 -- Buffer
 map("n", "<leader>fn", ":enew | startinsert<cr>", { desc = "New file" })
 map("n", "<leader><Tab>", "<cmd>b#<cr>", { desc = "Last buffer" })
+map("n", "<leader>bd", "<cmd>bd<cr>", { desc = "Delete buffer" })
+map("n", "<leader>bn", "<cmd>bn<cr>", { desc = "Next buffer" })
+map("n", "<leader>bp", "<cmd>bp<cr>", { desc = "Previous buffer" })
+map("n", "<leader>bl", "<cmd>ls<cr>", { desc = "Buffer list" })
+map("n", "<leader>bg", "<cmd>ls<cr>:b<space>", { desc = "Buffer list and goto" })
 
 -- jump
 map("n", "<leader>jj", '<cmd>lua require("flash").remote()<cr>', { desc = "Jump to a char" })
