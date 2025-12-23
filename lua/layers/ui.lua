@@ -14,6 +14,7 @@ loong.add_plugin("karb94/neoscroll.nvim", {
 -- https://github.com/akinsho/bufferline.nvim
 loong.add_plugin("akinsho/bufferline.nvim", {
   dependencies = { "nvim-tree/nvim-web-devicons" },
+  enabled = false,
   branch = "main",
   lazy = false,
   keys = {
@@ -84,6 +85,9 @@ loong.add_plugin("nvim-lualine/lualine.nvim", {
       theme = "horizon",
       globalstatus = true,
     },
+    sections = {
+      lualine_c = { { "filename", path = 3 } },
+    },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
   },
-  dependencies = { "nvim-tree/nvim-web-devicons" },
 })
