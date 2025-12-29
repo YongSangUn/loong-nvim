@@ -131,7 +131,7 @@ loong.add_plugin("yetone/avante.nvim", {
     behaviour = {
       -- enable_fastapply = true,
       -- auto_suggestions = true,
-      auto_approve_tool_permissions = false,
+      auto_approve_tool_permissions = true,
       -- Example: auto_approve_tool_permissions = {"bash", "str_replace", "grep"}, -- Auto-approve specific tools only
     },
     providers = {
